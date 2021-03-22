@@ -243,12 +243,16 @@ public class AppAnalytics {
 
         let items = self.items
         let counters = self.itemCounts
-        #if os(iOS)
+
+        self.items.removeAll()
+        self.itemCounts.removeAll()
+
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else {
                 os_log("Failed to get strong reference to AppAnalytics")
                 return
             }
+            #if os(iOS)
             strongSelf.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: {
                 UIApplication.shared.endBackgroundTask(strongSelf.backgroundTaskID)
                 strongSelf.backgroundTaskID = .invalid
@@ -256,13 +260,10 @@ public class AppAnalytics {
             
             strongSelf.submitItems(items, counters: counters, with: submitter)
             strongSelf.backgroundTaskID = .invalid
+            #elseif os(macOS)
+            strongSelf.submitItems(items, counters: counters, with: submitter)
+            #endif
         }
-        #elseif os(macOS)
-        submitItems(items, counters: counters, with: submitter)
-        #endif
-        
-        self.items.removeAll()
-        self.itemCounts.removeAll()
     }
     
     private func submitItems(_ items: [AnalyticsItem], counters: [String : Int], with submitter: AnalyticsSubmitting) {
