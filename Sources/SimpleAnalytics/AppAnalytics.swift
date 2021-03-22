@@ -21,7 +21,7 @@ public class AppAnalytics {
         return shared.items.count + shared.itemCounts.count
     }
     
-    /// Property defining an increment value to be added to the maximum number of items to accumulate before submitting to your service. To prevent spamming your server, this value is automatically added to the *maxItemCount* if a submission fails so that the next item added does not prompt another submission. If desired, you can adjust this value with by calling the `setSubmitFailureIncrement` function.
+    /// Property defining an increment value to be added to the maximum number of items to accumulate before submitting to your service. To add a delay before attempting to reach your server again, this value is automatically added to the *maxItemCount* if a submission fails so that the next item added does not prompt another submission. If desired, you can adjust this value with by calling the `setSubmitFailureIncrement` function.
     var maxCountResetValue = 20
     
     /// The value used to set the maximum number of items to accumulate before submitting items to your service. If the *maxItemCount* has been increased because of submission failures, it is reset to this base value upon the next successful submission. You can adjust this value by calling the `setMaximumItemCount` method
@@ -93,7 +93,7 @@ public class AppAnalytics {
     }
     
     /// A static method to change the value of the property added to the maximum count after a submission failure.
-    /// - Parameter increment: Int defining the amount to be added to the maximum item count before again attempting to submit entries. This value is used when a submission fails to prevent spamming your server.
+    /// - Parameter increment: Int defining the amount to be added to the maximum item count before again attempting to submit entries. This value is used when a submission fails to add a delay before again attempting to reach your server.
     public static func setSubmitFailureIncrement(_ increment: Int) {
         shared.maxCountResetValue = increment
     }
