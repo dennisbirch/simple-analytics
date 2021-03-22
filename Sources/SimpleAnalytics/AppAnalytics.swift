@@ -45,6 +45,10 @@ public class AppAnalytics {
     
     private static var shared = AppAnalytics()
     private static let persistenceFileName = "PersistedAnalytics"
+    
+    #if os(iOS)
+    private var backgroundTaskID = UIBackgroundTaskIdentifier(rawValue: 0)
+    #endif
 
     
     // MARK: - Public Methods
@@ -239,10 +243,29 @@ public class AppAnalytics {
 
         let items = self.items
         let counters = self.itemCounts
+        #if os(iOS)
+        DispatchQueue.global().async { [weak self] in
+            guard let strongSelf = self else {
+                os_log("Failed to get strong reference to AppAnalytics")
+                return
+            }
+            strongSelf.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: {
+                UIApplication.shared.endBackgroundTask(strongSelf.backgroundTaskID)
+                strongSelf.backgroundTaskID = .invalid
+            })
+            
+            strongSelf.submitItems(items, counters: counters, with: submitter)
+            strongSelf.backgroundTaskID = .invalid
+        }
+        #elseif os(macOS)
+        submitItems(items, counters: counters, with: submitter)
+        #endif
         
         self.items.removeAll()
         self.itemCounts.removeAll()
-        
+    }
+    
+    private func submitItems(_ items: [AnalyticsItem], counters: [String : Int], with submitter: AnalyticsSubmitting) {
         submitter.submitItems(items, itemCounts: counters, successHandler: { [weak self] message in
             os_log("Success submitting analytics at: %@: %@", Date().description, message)
             if let base = self?.baseItemCount {
@@ -251,21 +274,24 @@ public class AppAnalytics {
         }) { [weak self] (errorItems, errorCounters) in
             // restore to respective properties
             os_log("Analytics submission failed. Restoring items.")
-            self?.items.insert(contentsOf: errorItems, at: 0)
-            for (description, count) in errorCounters {
-                if var oldCount = self?.itemCounts[description] {
-                    oldCount += count
-                    self?.itemCounts[description] = oldCount
-                } else {
-                    self?.itemCounts[description] = count
-                }
-            }
-            
-            // add to maxCount so there's a delay before retrying
-            if let resetValue = self?.maxCountResetValue {
-                self?.maxItemCount += resetValue
+            self?.resetItems(errorItems, counters: errorCounters)
+        }
+    }
+    
+    private func resetItems(_ items: [AnalyticsItem], counters: [String : Int]) {
+        self.items.insert(contentsOf: items, at: 0)
+        for (description, count) in counters {
+            if var oldCount = self.itemCounts[description] {
+                oldCount += count
+                self.itemCounts[description] = oldCount
+            } else {
+                self.itemCounts[description] = count
             }
         }
+        
+        // add to maxCount so there's a delay before retrying
+        let resetValue = self.maxCountResetValue
+        self.maxItemCount += resetValue
     }
     
     @objc private func receivedDismissNotification(_ notification: Notification) {
