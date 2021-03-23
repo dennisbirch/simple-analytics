@@ -9,9 +9,9 @@ import Foundation
 import os.log
 
 protocol AnalyticsSubmitting {
-    func submitItems(_ items: [AnalyticsItem], itemCounts: [String : Int],
+    func submitItems(_ items: [AnalyticsItem], itemCounts: [AnalyticsCount],
                      successHandler: @escaping(String) -> Void,
-                     errorHandler: @escaping([AnalyticsItem], [String : Int]) -> Void)
+                     errorHandler: @escaping([AnalyticsItem], [AnalyticsCount]) -> Void)
 }
 
 struct AnalyticsSubmitter: AnalyticsSubmitting {
@@ -20,9 +20,9 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
     let applicationName: String
     let platform: String
     
-    func submitItems(_ items: [AnalyticsItem], itemCounts: [String : Int],
+    func submitItems(_ items: [AnalyticsItem], itemCounts: [AnalyticsCount],
                      successHandler: @escaping(String) -> Void,
-                     errorHandler: @escaping([AnalyticsItem], [String : Int]) -> Void) {
+                     errorHandler: @escaping([AnalyticsItem], [AnalyticsCount]) -> Void) {
         guard endpoint.isEmpty == false else {
             let requiresEnpointString =
                 """
@@ -126,17 +126,9 @@ struct AnalyticsSubmission: Encodable {
     let appName: String
     let platform: String
     let items: [AnalyticsItem]
-    let counters: [String : Int]
+    let counters: [AnalyticsCount]
 }
 
 struct AnalyticsSubmissionResponse: Decodable {
     let message: String
-
-    // FOR DEBUGGING:
-    // TODO: Remove
-    let items: [AnalyticsItem]
-    let counters: [String : Int]
-    let deviceID: String
-    let appName: String
-    let platform: String
 }

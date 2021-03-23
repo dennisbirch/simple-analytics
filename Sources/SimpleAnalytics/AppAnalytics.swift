@@ -30,7 +30,7 @@ public class AppAnalytics {
     // MARK: - Private Properties
     
     private(set) var items = [AnalyticsItem]()
-    private(set) var itemCounts = [String : Int]()
+    private(set) var itemCounts = [AnalyticsCount]()
     
     /// An instance of a type that conforms to the `AnalyticsSubmitting` protocol. This has internal scope to allow testing. An instance of the `AnalyticsSubmitter` struct is used automatically unless this property has been set to something else.
     var submitter: AnalyticsSubmitting?
@@ -152,9 +152,7 @@ public class AppAnalytics {
                 if counters.isEmpty == false {
                     let countersHash = counters.hashValue
                     if countersHash != shared.itemCounts.hashValue {
-                        for (key, value) in counters {
-                            shared.itemCounts[key] = value
-                        }
+                        shared.itemCounts.insert(contentsOf: counters, at: 0)
                     }
                 }
             } catch {
@@ -218,11 +216,13 @@ public class AppAnalytics {
     }
     
     func addCount(_ description: String) {
-        if var count = itemCounts[description] {
-            count += 1
-            itemCounts[description] = count
+        if let index = itemCounts.firstIndex(where: { $0.name == description }) {
+            var count = itemCounts[index]
+            count.count += 1
+            itemCounts[index] = count
         } else {
-            itemCounts[description] = 1
+            let count = AnalyticsCount(name: description, count: 1)
+            itemCounts.append(count)
         }
 
         let total = items.count + itemCounts.count
@@ -238,11 +238,16 @@ public class AppAnalytics {
     }
     
     func clearAndSubmitItems() {
-        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, platform: platform)
-        self.submitter = submitter
-
         let items = self.items
         let counters = self.itemCounts
+        
+        guard items.isEmpty == false || counters.isEmpty == false else {
+            os_log("Nothing to submit")
+            return
+        }
+
+        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, platform: platform)
+        self.submitter = submitter
 
         self.items.removeAll()
         self.itemCounts.removeAll()
@@ -266,7 +271,7 @@ public class AppAnalytics {
         }
     }
     
-    private func submitItems(_ items: [AnalyticsItem], counters: [String : Int], with submitter: AnalyticsSubmitting) {
+    private func submitItems(_ items: [AnalyticsItem], counters: [AnalyticsCount], with submitter: AnalyticsSubmitting) {
         submitter.submitItems(items, itemCounts: counters, successHandler: { [weak self] message in
             os_log("Success submitting analytics at: %@: %@", Date().description, message)
             if let base = self?.baseItemCount {
@@ -279,16 +284,9 @@ public class AppAnalytics {
         }
     }
     
-    private func resetItems(_ items: [AnalyticsItem], counters: [String : Int]) {
+    private func resetItems(_ items: [AnalyticsItem], counters: [AnalyticsCount]) {
         self.items.insert(contentsOf: items, at: 0)
-        for (description, count) in counters {
-            if var oldCount = self.itemCounts[description] {
-                oldCount += count
-                self.itemCounts[description] = oldCount
-            } else {
-                self.itemCounts[description] = count
-            }
-        }
+        self.itemCounts.insert(contentsOf: counters, at: 0)
         
         // add to maxCount so there's a delay before retrying
         let resetValue = self.maxCountResetValue
@@ -305,5 +303,5 @@ public class AppAnalytics {
 
 struct PersistenceModel: Codable {
     let items: [AnalyticsItem]
-    let counters: [String : Int]
+    let counters: [AnalyticsCount]
 }
