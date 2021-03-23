@@ -63,6 +63,17 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                         let code = httpResponse.statusCode
                         if (200...299).contains(code) == false {
                             // response code not in accepted range
+                            #if DEBUG
+                            if let data = data {
+                                let decoder = JSONDecoder()
+                                let response = try? decoder.decode(AnalyticsSubmissionResponse.self, from: data)
+                                if let response = response {
+                                    os_log("%@", response.message)
+                                } else {
+                                    os_log("%@",String(describing: String(data: data, encoding: .utf8)))
+                                }
+                            }
+                            #endif
                             errorHandler(items, itemCounts)
                             return
                         }
@@ -85,25 +96,13 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
     
     
     private func handleResponseData(_ data: Data) -> String {
-        // TODO: Remove!!!
-        print("Response data:\n\(String(describing: String(data: data, encoding: .utf8)))")
-            // **************
+        #if DEBUG
+        os_log("Response data:\n%@", String(describing: String(data: data, encoding: .utf8)))
+        #endif
+
         let decoder = JSONDecoder()
         do {
             let response = try decoder.decode(AnalyticsSubmissionResponse.self, from: data)
-            
-            // TODO: Remove!!!
-            let info =
-                """
-                Response deviceID: \(response.deviceID)
-                Response appName: \(response.appName)
-                Response platform: \(response.platform)
-                Response items: \(response.items)
-                Response counters: \(response.counters)
-                """
-            print(info)
-            // ***********
-            
             return response.message
         } catch {
             os_log("Error decoding response JSON: %@", error.localizedDescription)
