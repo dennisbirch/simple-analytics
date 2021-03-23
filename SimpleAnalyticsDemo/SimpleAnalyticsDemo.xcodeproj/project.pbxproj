@@ -17,8 +17,6 @@
 		D89818C9260A8A2B0066E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818C7260A8A2B0066E8FB /* AnalyticsManager.swift */; };
 		D89818CD260A8B8B0066E8FB /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D89818CC260A8B8B0066E8FB /* SimpleAnalytics */; };
 		D89818CF260A8BAE0066E8FB /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D89818CE260A8BAE0066E8FB /* SimpleAnalytics */; };
-		D89818D3260A92910066E8FB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818D2260A92910066E8FB /* MainView.swift */; };
-		D89818D5260A92A50066E8FB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818D4260A92A50066E8FB /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +30,6 @@
 		D89818B8260A89B30066E8FB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		D89818C7260A8A2B0066E8FB /* AnalyticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		D89818CA260A8B770066E8FB /* SimpleAnalytics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SimpleAnalytics; path = ..; sourceTree = "<group>"; };
-		D89818D2260A92910066E8FB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		D89818D4260A92A50066E8FB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				D89818B0260A89B30066E8FB /* Info.plist */,
-				D89818D4260A92A50066E8FB /* MainView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -102,7 +97,6 @@
 			children = (
 				D89818B7260A89B30066E8FB /* Info.plist */,
 				D89818B8260A89B30066E8FB /* macOS.entitlements */,
-				D89818D2260A92910066E8FB /* MainView.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -218,7 +212,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89818C8260A8A2B0066E8FB /* AnalyticsManager.swift in Sources */,
-				D89818D5260A92A50066E8FB /* MainView.swift in Sources */,
 				D89818BB260A89B30066E8FB /* ContentView.swift in Sources */,
 				D89818B9260A89B30066E8FB /* SimpleAnalyticsDemoApp.swift in Sources */,
 			);
@@ -229,7 +222,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89818C9260A8A2B0066E8FB /* AnalyticsManager.swift in Sources */,
-				D89818D3260A92910066E8FB /* MainView.swift in Sources */,
 				D89818BC260A89B30066E8FB /* ContentView.swift in Sources */,
 				D89818BA260A89B30066E8FB /* SimpleAnalyticsDemoApp.swift in Sources */,
 			);

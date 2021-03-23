@@ -9,12 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ScrollView {
-            MainView()
-        }
-        .onAppear{
-            DemoAnalytics.addAnalyticsItem("Display main view")
-        }
+        MainView()
+            .onAppear{
+                DemoAnalytics.addAnalyticsItem("Display main view")
+            }
     }
 }
 
@@ -40,8 +38,8 @@ struct SecondButtonGroup: View {
             PlaySoundButton(title: "Soft Sigh")
             PlaySoundButton(title: "Thunderclap")
             PlaySoundButton(title: "Ocean Wave Crashing")
-            PlaySoundButton(title: "Repeat Last")
-            PlaySoundButton(title: "Repeat Last (Other)")
+            CountActionButton(title: "Repeat Last")
+            CountActionButton(title: "Repeat Last (Other)")
         }
     }
 }
@@ -60,6 +58,43 @@ struct PlaySoundButton: View {
         // do whatever else this button should do
     }
 }
+
+struct CountActionButton: View {
+    let title: String
+    var body: some View {
+        Button(title) {
+            addCount(title)
+        }
+        .padding()
+    }
+    
+    private func addCount(_ title: String) {
+        DemoAnalytics.countItem(title)
+        // do whatever else this button should do
+    }
+}
+
+#if os(iOS)
+struct MainView: View {
+    var body: some View {
+        ScrollView {
+            VStack {
+                FirstButtonGroup()
+                SecondButtonGroup()
+            }
+        }
+    }
+}
+#elseif os(macOS)
+struct MainView: View {
+    var body: some View {
+        HStack {
+            FirstButtonGroup()
+            SecondButtonGroup()
+        }
+    }
+}
+#endif
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
