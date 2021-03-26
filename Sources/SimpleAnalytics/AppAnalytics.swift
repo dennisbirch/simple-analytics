@@ -53,11 +53,7 @@ public class AppAnalytics {
     
     // MARK: - Public Methods
     
-    /// Static method to allow overriding the *endPoint* property
-    /// - Parameter urlString: String for the endpoint's URL
-    public static func setEndpoint(_ urlString: String) {
-        shared.endpoint = urlString
-    }
+    // MARK: - Recording analytics data
     
     /// Static method to add an item to record
     /// - Parameters:
@@ -68,16 +64,17 @@ public class AppAnalytics {
     }
     
     /// Static method to count an occurrence of any event
-    /// - Parameter description: String describing the item to be counted. A dictionary of count items is set to 1 or incremented by 1 for the description's entry.
+    /// - Parameter description: String describing the item to be counted. An item is added and set to a value of 1, or incremented by 1.
     public static func countItem(_ description: String) {
         shared.addCount(description)
     }
     
-    /// A static method to trigger submission of collected analytics
-    ///
-    /// **NOTE**: The framework automatically submits analytics to the server when sufficient numbers have accumulated. You may want to arbitrarily submit entries at other times with this method.
-    public static func submitNow() {
-        shared.clearAndSubmitItems()
+    // MARK: - Configuring output and behavior
+    
+    /// Static method to set the *endPoint* property
+    /// - Parameter urlString: String for the endpoint's URL
+    public static func setEndpoint(_ urlString: String) {
+        shared.endpoint = urlString
     }
     
     /// A static method to set the *platform* property
@@ -102,6 +99,15 @@ public class AppAnalytics {
     /// - Parameter shouldSubmit: AppAnalytics listens for *appWillResign* and *appWillTerminate* notifications. It responds to those when possible by attempting to submit current entries. If you want to override that behavior, you can call this method with an argument of *false*, or re-enable it with an argument of *true*.
     public static func overrideSubmitAtDismiss(shouldSubmit: Bool) {
         shared.shouldSubmitAtAppDismiss = shouldSubmit
+    }
+    
+    // MARK: - Submitting data and persistence support
+    
+    /// A static method to trigger submission of collected analytics
+    ///
+    /// **NOTE**: The framework automatically submits analytics to the server when sufficient numbers have accumulated. You may want to arbitrarily submit entries at other times with this method.
+    public static func submitNow() {
+        shared.clearAndSubmitItems()
     }
     
     /// A static method to write current contents to disk.
