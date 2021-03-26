@@ -4,4 +4,7 @@
    <FileRef
       location = "group:SimpleAnalyticsDemo/SimpleAnalyticsDemo.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:analytics.php">
+   </FileRef>
 </Workspace>
