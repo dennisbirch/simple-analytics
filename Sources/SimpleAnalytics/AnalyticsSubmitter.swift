@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import os.log
 
 protocol AnalyticsSubmitting {
     func submitItems(_ items: [AnalyticsItem], itemCounts: [AnalyticsCount],
@@ -33,13 +32,13 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                 ===================
                 
                 """
-            os_log("%@", requiresEnpointString)
+            SimpleAnalytics.debugLog("%@", requiresEnpointString)
             errorHandler(items, itemCounts)
             return
         }
         
         guard let url = URL(string: endpoint) else {
-            os_log("Can't form URL from endpoint string")
+            SimpleAnalytics.debugLog("Can't form URL from endpoint string")
             errorHandler(items, itemCounts)
             return
         }
@@ -56,7 +55,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
             config.timeoutIntervalForResource = 120
             let task = URLSession(configuration: config).dataTask(with: urlRequest) { (data, response, error) in
                 if let taskError = error {
-                    os_log("Error posting analytics request: %@", taskError.localizedDescription)
+                    SimpleAnalytics.debugLog("Error posting analytics request: %@", taskError.localizedDescription)
                     errorHandler(items, itemCounts)
                 } else {
                     if let httpResponse = response as? HTTPURLResponse {
@@ -68,9 +67,9 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                                 let decoder = JSONDecoder()
                                 let response = try? decoder.decode(AnalyticsSubmissionResponse.self, from: data)
                                 if let response = response {
-                                    os_log("%@", response.message)
+                                    SimpleAnalytics.debugLog("%@", response.message)
                                 } else {
-                                    os_log("%@",String(describing: String(data: data, encoding: .utf8)))
+                                    SimpleAnalytics.debugLog("%@",String(describing: String(data: data, encoding: .utf8)))
                                 }
                             }
                             #endif
@@ -97,7 +96,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
     
     private func handleResponseData(_ data: Data) -> String {
         #if DEBUG
-        os_log("Response data:\n%@", String(describing: String(data: data, encoding: .utf8)))
+        SimpleAnalytics.debugLog("Response data:\n%@", String(describing: String(data: data, encoding: .utf8)))
         #endif
 
         let decoder = JSONDecoder()
@@ -105,7 +104,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
             let response = try decoder.decode(AnalyticsSubmissionResponse.self, from: data)
             return response.message
         } catch {
-            os_log("Error decoding response JSON: %@", error.localizedDescription)
+            SimpleAnalytics.debugLog("Error decoding response JSON: %@", error.localizedDescription)
             return ""
         }
     }

@@ -120,10 +120,10 @@ public class AppAnalytics {
             do {
                 try data.write(to: url, options: .atomicWrite)
             } catch {
-                os_log("Error writing persistence file to temporary directory: %@", error.localizedDescription)
+                SimpleAnalytics.debugLog("Error writing persistence file to temporary directory: %@", error.localizedDescription)
             }
         } catch {
-            os_log("Error encoding persistence model: %@", error.localizedDescription)
+            SimpleAnalytics.debugLog("Error encoding persistence model: %@", error.localizedDescription)
         }
     }
     
@@ -156,14 +156,15 @@ public class AppAnalytics {
                     }
                 }
             } catch {
-                os_log("Error decoding persisted model data: %@", error.localizedDescription)
+                SimpleAnalytics.debugLog("Error decoding persisted model data: %@", error.localizedDescription)
             }
         } catch {
-            os_log("Error reading persisted analytics file: %@", error.localizedDescription)
+            SimpleAnalytics.debugLog("Error reading persisted analytics file: %@", error.localizedDescription)
         }
     }
     
     // MARK: - Internal & Private Methods
+    // MARK: - 
     
     init(endpoint: String = "", appName: String = "") {
         self.endpoint = endpoint
@@ -242,7 +243,7 @@ public class AppAnalytics {
         let counters = self.itemCounts
         
         guard items.isEmpty == false || counters.isEmpty == false else {
-            os_log("Nothing to submit")
+            SimpleAnalytics.debugLog("Nothing to submit")
             return
         }
 
@@ -254,7 +255,7 @@ public class AppAnalytics {
 
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else {
-                os_log("Failed to get strong reference to AppAnalytics")
+                SimpleAnalytics.debugLog("Failed to get strong reference to AppAnalytics")
                 return
             }
             #if os(iOS)
@@ -273,13 +274,13 @@ public class AppAnalytics {
     
     private func submitItems(_ items: [AnalyticsItem], counters: [AnalyticsCount], with submitter: AnalyticsSubmitting) {
         submitter.submitItems(items, itemCounts: counters, successHandler: { [weak self] message in
-            os_log("Success submitting analytics at: %@: %@", Date().description, message)
+            SimpleAnalytics.debugLog("Success submitting analytics at: %@: %@", Date().description, message)
             if let base = self?.baseItemCount {
                 self?.maxItemCount = base
             }
         }) { [weak self] (errorItems, errorCounters) in
             // restore to respective properties
-            os_log("Analytics submission failed. Restoring items.")
+            SimpleAnalytics.debugLog("Analytics submission failed. Restoring items.")
             self?.resetItems(errorItems, counters: errorCounters)
         }
     }
