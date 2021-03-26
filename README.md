@@ -103,18 +103,18 @@ AppAnalytics submits its data in a JSON payload with the following format:
 Label         | Contents                     
 ------------- | --------------------------------
 __items__     | An array of analytics item entries, each of which includes:
-          |   _description_: The description of the item as defined by the call to `AppAnalytics.addItem(_:, parameters)`
- | _parameters_: An *optional* String:String dictionary of additional details
- | _device\_id_: A string with a unique identifier for your app on each device running it
- | _app\_name_: A string with the name of the application where the analytics item was generated
- | _platform_: A string with the name of the platform in which the app was running (iOS or macOS)
- | _timestamp_: A string with the date and time that the item was generated, in ISO8661 format for the user's timezone
+              |   _description_: The description of the item as defined by the call to AppAnalytics.addItem(_:, parameters)
+              | _parameters_: An *optional* String:String dictionary of additional details
+              | _device\_id_: A string with a unique identifier for your app on each device running it
+              | _app\_name_: A string with the name of the application where the analytics item was generated
+              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS)
+              | _timestamp_ : A string with the date and time that the item was generated, in ISO8661 format for the user's timezone
 __counters__  | An array of 'counters', each of which includes:
- |   _name_: The name of the action being counted, as defined by the call to `AppAnalytics.countItem(_:)`
- | _count_: The number of times the event was counted during the current analytics collection session
- | _device\_id_: A string with a unique identifier for your app on each device running it
- | _app\_name_: A string with the name of the application where the analytics item was generated
- | _platform_: A string with the name of the platform in which the app was running (iOS or macOS)
+              |   _name_: The name of the action being counted, as defined by the call to AppAnalytics.countItem(_:)
+              | _count_: The number of times the event was counted during the current analytics collection session
+              | _device\_id_: A string with a unique identifier for your app on each device running it
+              | _app\_name_: A string with the name of the application where the analytics item was generated
+              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS)
 
 ##### JSON Response
 Your web app should respond to handling the payload with a JSON payload in the following format:
