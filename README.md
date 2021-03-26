@@ -103,7 +103,7 @@ AppAnalytics submits its data in a JSON payload with the following format:
 Label         | Contents                     
 ------------- | --------------------------------
 __items__     | An array of analytics item entries, each of which includes:
- |   _description_: The description of the item as defined by the call to `AppAnalytics.addItem(_:, parameters)`
+          |   _description_: The description of the item as defined by the call to `AppAnalytics.addItem(_:, parameters)`
  | _parameters_: An *optional* String:String dictionary of additional details
  | _device\_id_: A string with a unique identifier for your app on each device running it
  | _app\_name_: A string with the name of the application where the analytics item was generated
