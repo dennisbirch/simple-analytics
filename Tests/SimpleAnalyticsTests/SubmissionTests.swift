@@ -30,7 +30,7 @@ final class SubmissionTests: XCTestCase {
     
     func testSubmitFailure() {
         manager.submitter = TestSubmitter(shouldSucceed: false)
-        manager.setMaxItemCount(12)
+        manager.setMaxCount(12)
         manager.maxCountResetValue = 5
         manager.addAnalyticsItem(moveSquare)
         manager.addAnalyticsItem(jumpFive)
@@ -39,32 +39,36 @@ final class SubmissionTests: XCTestCase {
         manager.addAnalyticsItem(moveSquare)
         manager.addAnalyticsItem(jumpFive)
         XCTAssertEqual(manager.items.count, 6)
-        manager.clearAndSubmitItems()
-        XCTAssertFalse(manager.items.isEmpty)
-        XCTAssertEqual(manager.items.count, 6)
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        XCTAssertEqual(manager.items.count, 8)
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        XCTAssertEqual(manager.items.count, 10)
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        XCTAssertEqual(manager.items.count, 14)
-        // maxCount should now be 17
-        manager.submitter = TestSubmitter(shouldSucceed: true)
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        // 17th item should result in successful submission and reset
-        manager.addAnalyticsItem(moveSquare)
-        manager.addAnalyticsItem(jumpFive)
-        XCTAssertEqual(manager.items.count, 1)
+        let strongManager = manager
+        let strongMove = moveSquare
+        let strongJump = jumpFive
+        DispatchQueue.main.async {
+            strongManager.clearAndSubmitItems()
+            XCTAssertEqual(strongManager.items.count, 6)
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            XCTAssertEqual(strongManager.items.count, 8)
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            XCTAssertEqual(strongManager.items.count, 10)
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            XCTAssertEqual(strongManager.items.count, 14)
+            // maxCount should now be 17
+            strongManager.submitter = TestSubmitter(shouldSucceed: true)
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            // 17th item should result in successful submission and reset
+            strongManager.addAnalyticsItem(strongMove)
+            strongManager.addAnalyticsItem(strongJump)
+            XCTAssertEqual(strongManager.items.count, 1)
+        }
     }
     
     func testAutomaticSubmission() {
-        manager.setMaxItemCount(5)
+        manager.setMaxCount(5)
         manager.submitter = TestSubmitter(shouldSucceed: true)
         
         manager.addAnalyticsItem(moveSquare)
@@ -80,20 +84,21 @@ final class SubmissionTests: XCTestCase {
         manager.addAnalyticsItem(jumpFive)
         XCTAssertEqual(manager.items.count, 1)
     }
-
 }
 
 
 struct TestSubmitter: AnalyticsSubmitting {
     var shouldSucceed: Bool
     
-    func submitItems(_ items: [AnalyticsItem], itemCounts: [String : Int],
+    func submitItems(_ items: [AnalyticsItem], itemCounts: [AnalyticsCount],
                      successHandler: @escaping(String) -> Void,
-                     errorHandler: @escaping([AnalyticsItem], [String : Int]) -> Void) {
+                     errorHandler: @escaping([AnalyticsItem], [AnalyticsCount]) -> Void) {
         if shouldSucceed == true {
             successHandler(successMsgTemplate.replacingOccurrences(of: "<%@>", with: "\(items.count + itemCounts.count)"))
         } else {
-            errorHandler(items, itemCounts)
+            DispatchQueue.main.async {
+                errorHandler(items, itemCounts)
+            }
         }
     }
 }

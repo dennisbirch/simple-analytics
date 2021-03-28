@@ -44,15 +44,18 @@
             let jumpCount = 23
             
             for _ in 1...jumpCount {
-                manager.countAnalyticsItem(jumpFive)
+                manager.addCount(jumpFive)
             }
             for _ in 1...moveCount {
-                manager.countAnalyticsItem(moveSquare)
+                manager.addCount(moveSquare)
             }
             
             let counters = manager.itemCounts
-            XCTAssertEqual(counters[jumpFive], jumpCount)
-            XCTAssertEqual(counters[moveSquare], moveCount)
+            let jumpFiveItem = counters.first(where: { $0.name == jumpFive })
+            XCTAssertNotNil(jumpFiveItem)
+            XCTAssertEqual(jumpFiveItem!.count, jumpCount)
+            let squareItem = counters.first(where: { $0.name == moveSquare })
+            XCTAssertEqual(squareItem!.count, moveCount)
         }
         
     }

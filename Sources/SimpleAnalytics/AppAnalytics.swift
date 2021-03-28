@@ -37,9 +37,9 @@ public class AppAnalytics {
     
     private var maxItemCount = 0
 
-    private var endpoint: String = ""
-    private var appName: String
-    private var platform: String
+    var endpoint: String = ""
+    var appName: String
+    var platform: String
     private var deviceID: String
     private var shouldSubmitAtAppDismiss = true
     
@@ -47,7 +47,7 @@ public class AppAnalytics {
     private static let persistenceFileName = "PersistedAnalytics"
     
     #if os(iOS)
-    private var backgroundTaskID = UIBackgroundTaskIdentifier(rawValue: 0)
+    private var backgroundTaskID = UIBackgroundTaskIdentifier(rawValue: 5000)
     #endif
 
     
@@ -201,7 +201,13 @@ public class AppAnalytics {
         maxItemCount = baseItemCount
         
         #if os(iOS)
-        platform = "iOS"
+        let deviceType: String
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            deviceType = "iPhone"
+        } else {
+            deviceType = "iPad"
+        }
+        platform = "iOS (\(deviceType))"
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willTerminateNotification, object: nil)
         #elseif os(macOS)
@@ -250,6 +256,11 @@ public class AppAnalytics {
         
         guard items.isEmpty == false || counters.isEmpty == false else {
             SimpleAnalytics.debugLog("Nothing to submit")
+            #if os(iOS)
+            if backgroundTaskID != .invalid {
+                UIApplication.shared.endBackgroundTask(backgroundTaskID)
+            }
+            #endif
             return
         }
 
@@ -260,21 +271,7 @@ public class AppAnalytics {
         self.itemCounts.removeAll()
 
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else {
-                SimpleAnalytics.debugLog("Failed to get strong reference to AppAnalytics")
-                return
-            }
-            #if os(iOS)
-            strongSelf.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: {
-                UIApplication.shared.endBackgroundTask(strongSelf.backgroundTaskID)
-                strongSelf.backgroundTaskID = .invalid
-            })
-            
-            strongSelf.submitItems(items, counters: counters, with: submitter)
-            strongSelf.backgroundTaskID = .invalid
-            #elseif os(macOS)
-            strongSelf.submitItems(items, counters: counters, with: submitter)
-            #endif
+            self?.submitItems(items, counters: counters, with: submitter)
         }
     }
     
@@ -284,10 +281,22 @@ public class AppAnalytics {
             if let base = self?.baseItemCount {
                 self?.maxItemCount = base
             }
+            #if os(iOS)
+            if let task = self?.backgroundTaskID,
+               task != .invalid {
+                UIApplication.shared.endBackgroundTask(task)
+            }
+            #endif
         }) { [weak self] (errorItems, errorCounters) in
             // restore to respective properties
             SimpleAnalytics.debugLog("Analytics submission failed. Restoring items.")
             self?.resetItems(errorItems, counters: errorCounters)
+            #if os(iOS)
+            if let task = self?.backgroundTaskID,
+               task != .invalid {
+                UIApplication.shared.endBackgroundTask(task)
+            }
+            #endif
         }
     }
     
@@ -302,7 +311,17 @@ public class AppAnalytics {
     
     @objc private func receivedDismissNotification(_ notification: Notification) {
         if shouldSubmitAtAppDismiss == true {
+            #if os(iOS)
+            backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: { [weak self] in
+                if let task = self?.backgroundTaskID {
+                    UIApplication.shared.endBackgroundTask(task)
+                    self?.backgroundTaskID = .invalid
+                }
+            })
+            self.clearAndSubmitItems()
+            #elseif os(macOS)
             clearAndSubmitItems()
+            #endif
         }
     }
 }
