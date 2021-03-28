@@ -13,7 +13,11 @@ In the Swift Packages section of the Project configuration panel, inlude a depen
 
 https://github.com/dennisbirch/simple-analytics
 
-Be sure to import SimpleAnalytics in any files in your project where you're calling its methods or accessing its properties.
+Be sure to add SimpleAnalytics to your target's Frameworks list.
+
+![Adding reference to SimpleAnalytics framework.](images/add-framework.png)
+
+Then import SimpleAnalytics in any files in your project where you're calling its methods or accessing its properties.
 
 ## Documentation
 ### Configuration
@@ -125,6 +129,7 @@ __message__   | A string with any message. In the default implementation, the st
 
 __NOTE:__ Failure to send a properly formatted response will cause SimpleAnalytics to resend the same items again.
 
+See the _Analytics.php_ file included in the package for an example of how you might handle the incoming JSON payload and send a response on a web server.
 
 ### Persisting analytics data
 
