@@ -41,7 +41,7 @@ $dbErrorCode = 503;
 $body = @file_get_contents('php://input');
 
 // Create connection
-$conn = new mysqli($database_servername, $username, $password, $database_name);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
@@ -61,6 +61,7 @@ function parse_body($body, $conn) {
 	$device_id = (string)$decoded->device_id;
     $application = (string)$decoded->app_name;
     $platform = (string)$decoded->platform;
+    $system_version = (string)$decoded->system_version;
 
 	$currentCount = 0;
 	
@@ -71,13 +72,13 @@ function parse_body($body, $conn) {
 		$timestamp = "";
 	
 			// prepare and bind items insert statement
-		$prepared = $stmt = $conn->prepare("INSERT INTO items (description, details, device_id, app_name, platform, timestamp) VALUES (?, ?, ?, ?, ?, ?);");
+		$prepared = $stmt = $conn->prepare("INSERT INTO items (description, details, device_id, app_name, platform, system_version, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?);");
 		if ($prepared === false) {
 			echo(generateErrorResponse("Error preparing 'items' insert statement", $dbErrorCode));
 			return;
 		}
 
-		$stmt->bind_param("ssssss", $description, $details, $device_id, $application, $platform, $timestamp);
+		$stmt->bind_param("sssssss", $description, $details, $device_id, $application, $platform, $system_version, $timestamp);
 
 		
 		foreach ($items as $item) {
@@ -99,13 +100,13 @@ function parse_body($body, $conn) {
 		$itemCount = 0;
 
 		// prepare and bind counters insert statement
-		$prepared = $stmt = $conn->prepare("INSERT INTO counters (description, count, device_id, app_name, platform) VALUES (?, ?, ?, ?, ?);");
+		$prepared = $stmt = $conn->prepare("INSERT INTO counters (description, count, device_id, app_name, platform, system_version) VALUES (?, ?, ?, ?, ?, ?);");
 		if ($prepared === false) {
 			echo(generateErrorResponse("Error preparing 'counters' insert statement", $dbErrorCode));
 			return;
 		}
 
-		$stmt->bind_param("sdsss", $name, $itemCount, $device_id, $application, $platform);
+		$stmt->bind_param("sdssss", $name, $itemCount, $device_id, $application, $platform, $system_version);
 		
 			
 		foreach ($counters as $item) {

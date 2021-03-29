@@ -18,6 +18,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
     let deviceID: String
     let applicationName: String
     let platform: String
+    let systemVersion: String
     
     func submitItems(_ items: [AnalyticsItem], itemCounts: [AnalyticsCount],
                      successHandler: @escaping(String) -> Void,
@@ -44,7 +45,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        let requestItem = AnalyticsSubmission(deviceID: deviceID, appName: applicationName, platform: platform, items: items, counters: itemCounts)
+        let requestItem = AnalyticsSubmission(deviceID: deviceID, appName: applicationName, systemVersion: systemVersion, platform: platform, items: items, counters: itemCounts)
         let encoder = JSONEncoder()
         do {
             let data = try encoder.encode(requestItem)
@@ -115,6 +116,7 @@ struct AnalyticsSubmission: Encodable {
     enum CodingKeys: String, CodingKey {
         case deviceID = "device_id"
         case appName = "app_name"
+        case systemVersion = "system_version"
         case platform
         case items
         case counters
@@ -122,6 +124,7 @@ struct AnalyticsSubmission: Encodable {
     
     let deviceID: String
     let appName: String
+    let systemVersion: String
     let platform: String
     let items: [AnalyticsItem]
     let counters: [AnalyticsCount]

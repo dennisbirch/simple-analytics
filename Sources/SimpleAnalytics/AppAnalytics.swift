@@ -41,6 +41,7 @@ public class AppAnalytics {
     var appName: String
     var platform: String
     private var deviceID: String
+    private var systemVersion: String
     private var shouldSubmitAtAppDismiss = true
     
     private static var shared = AppAnalytics()
@@ -208,10 +209,14 @@ public class AppAnalytics {
             deviceType = "iPad"
         }
         platform = "iOS (\(deviceType))"
+        systemVersion = UIDevice.current.systemVersion
+
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willTerminateNotification, object: nil)
         #elseif os(macOS)
         platform = "macOS"
+        systemVersion = ProcessInfo().operatingSystemVersionString
+
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willTerminateNotification, object: nil)
         #endif
@@ -264,7 +269,7 @@ public class AppAnalytics {
             return
         }
 
-        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, platform: platform)
+        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, platform: platform, systemVersion: systemVersion)
         self.submitter = submitter
 
         self.items.removeAll()
