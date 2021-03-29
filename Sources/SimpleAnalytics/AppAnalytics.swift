@@ -282,9 +282,11 @@ public class AppAnalytics {
     
     private func submitItems(_ items: [AnalyticsItem], counters: [AnalyticsCount], with submitter: AnalyticsSubmitting) {
         submitter.submitItems(items, itemCounts: counters, successHandler: { [weak self] message in
-            SimpleAnalytics.debugLog("Success submitting analytics at: %@: %@", Date().description, message)
-            if let base = self?.baseItemCount {
-                self?.maxItemCount = base
+            DispatchQueue.main.async {
+                SimpleAnalytics.debugLog("Success submitting analytics at: %@: %@", Date().description, message)
+                if let base = self?.baseItemCount {
+                    self?.maxItemCount = base
+                }
             }
             #if os(iOS)
             if let task = self?.backgroundTaskID,
@@ -294,14 +296,16 @@ public class AppAnalytics {
             #endif
         }) { [weak self] (errorItems, errorCounters) in
             // restore to respective properties
-            SimpleAnalytics.debugLog("Analytics submission failed. Restoring items.")
-            self?.resetItems(errorItems, counters: errorCounters)
-            #if os(iOS)
-            if let task = self?.backgroundTaskID,
-               task != .invalid {
-                UIApplication.shared.endBackgroundTask(task)
+            DispatchQueue.main.async {
+                SimpleAnalytics.debugLog("Analytics submission failed. Restoring items.")
+                self?.resetItems(errorItems, counters: errorCounters)
+                #if os(iOS)
+                if let task = self?.backgroundTaskID,
+                   task != .invalid {
+                    UIApplication.shared.endBackgroundTask(task)
+                }
+                #endif
             }
-            #endif
         }
     }
     
@@ -323,9 +327,13 @@ public class AppAnalytics {
                     self?.backgroundTaskID = .invalid
                 }
             })
-            self.clearAndSubmitItems()
+            DispatchQueue.main.async { [weak self] in
+                self?.clearAndSubmitItems()
+            }
             #elseif os(macOS)
-            clearAndSubmitItems()
+            DispatchQueue.main.async { [weak self] in
+                self?.clearAndSubmitItems()
+            }
             #endif
         }
     }
