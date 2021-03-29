@@ -1,8 +1,9 @@
 # SimpleAnalytics
 
 ### A lightweight analytics reporting package for iOS and macOS projects.
+You may want to gain the insights that analytics reporting can provide to your iOS or Mac app, but don't want to take on the unknowns, or potentially intrusive oversharing some third party analytics packages perform. _SimpleAnalytics_ is an alternative that puts all the control of what goes out, and who it goes to, into your hands.
 
-SimpleAnalytics allows you to capture user actions in your apps and submit them to a server you control or have access to, for processing and review.
+SimpleAnalytics allows you to capture user actions in your apps and submit them to a server you control or have access to.
 
 See the SimpleAnalyticsDemo project for a rudimentary example of using it in an Xcode project.
 
@@ -35,7 +36,7 @@ _urlString_: String for your web service URL.
 This call should be made as early as possible in your app's lifecycle.
 
 #### Platform name
-To help differentiate data entries, SimpleAnalytics includes a field for the platform for every entry. The framework automatically assigns the values *iOS* and *macOS* for those platforms, but if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with the `AppAnalytics.setPlatform(_ :)` method.
+To help differentiate data entries, SimpleAnalytics includes a field for the platform for every entry. The framework automatically assigns the values *iOS* and *macOS* for those platforms along with the device type for iOS. But if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with the `AppAnalytics.setPlatform(_ :)` method.
 
 __Parameters:__
 
@@ -68,7 +69,7 @@ _shouldSubmit_: Bool. Pass in _false_ to turn off automatic submission, or _true
 
 SimpleAnalytics offers two ways of recording analytics data.
 
-_Analytics item_: This option lets you define a name for the item and optionally include a String:String dictionary of additional parameters. _It is your responsibility to ensure that you do not include private user information in these additional parameters._
+_Analytics item_: This option lets you define a name for the item and optionally include a [String:String] dictionary of additional parameters. _It is your responsibility to ensure that you do not include private user information._
 
 _Counter_: This option allows you to name an action or behavior you want to record, and increment a counter each time it's repeated.
 
@@ -89,11 +90,11 @@ __Parameters:__
 _description_: String describing the item to be counted. An item is added and set to a value of 1, or incremented by 1.
 
 ### Submitting data
-SimpleAnalytics keeps all the analytics entries you add in two arrays in the `AppAnalytics` shared instance until it is attempts to submit it to your server. By default, SimpleAnalytics attempts to submit its data after a total of 100 items have accumulated, and when the application hosting it is sent to the background.
+SimpleAnalytics keeps all the analytics entries you add in two arrays in the `AppAnalytics` shared instance until it attempts to submit the data to your server. By default, SimpleAnalytics attempts submissions after a total of 100 items have accumulated, and when the application hosting it is sent to the background.
 
 If a submission attempt fails, the items that were removed from the AppAnalytics arrays are restored for the next attempt. 
 
-[As discussed above](#submission), you can configure some values to influence when AppAnalytics submits data.
+As discussed above, [you can configure some values](#submission) to influence when AppAnalytics submits data.
 
 #### Forcing a submission attempt
 You can trigger a submission attempt at any time by calling the `AppAnalytics.submitNow()` method.
