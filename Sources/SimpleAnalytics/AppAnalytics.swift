@@ -283,7 +283,7 @@ public class AppAnalytics {
     private func submitItems(_ items: [AnalyticsItem], counters: [AnalyticsCount], with submitter: AnalyticsSubmitting) {
         submitter.submitItems(items, itemCounts: counters, successHandler: { [weak self] message in
             DispatchQueue.main.async {
-                SimpleAnalytics.debugLog("Success submitting analytics at: %@: %@", Date().description, message)
+                SimpleAnalytics.debugLog("Success submitting analytics: %@", message)
                 if let base = self?.baseItemCount {
                     self?.maxItemCount = base
                 }
