@@ -1,7 +1,10 @@
 # SimpleAnalytics
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdennisbirch%2Fsimple-analytics%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/dennisbirch/simple-analytics)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdennisbirch%2Fsimple-analytics%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/dennisbirch/simple-analytics)
+
 ### A lightweight analytics reporting package for iOS and macOS projects.
-You may want to gain the insights that analytics reporting can provide to your iOS or Mac app, but don't want to take on the unknowns, or potentially intrusive oversharing some third party analytics packages perform. _SimpleAnalytics_ is an alternative that puts all the control of what goes out, and who it goes to, into your hands.
+You may want to gain the insights that analytics reporting can provide to your iOS or Mac app, but don't want to take on the unknowns, or the potentially intrusive oversharing that some third party analytics packages perform. _SimpleAnalytics_ is an alternative that puts all the control of what goes out, and who it goes to, into your hands.
 
 SimpleAnalytics allows you to capture user actions in your apps and submit them to a server you control or have access to.
 
@@ -19,6 +22,9 @@ Be sure to add SimpleAnalytics to your target's Frameworks list.
 ![Adding reference to SimpleAnalytics framework.](images/add-framework.png)
 
 Then import SimpleAnalytics in any files in your project where you're calling its methods or accessing its properties.
+
+## Contributing
+Contributions are welcome. To suggest an improvement, please submit a pull request.
 
 ## Documentation
 ### Configuration
@@ -94,7 +100,7 @@ SimpleAnalytics keeps all the analytics entries you add in two arrays in the `Ap
 
 If a submission attempt fails, the items that were removed from the AppAnalytics arrays are restored for the next attempt. 
 
-As discussed above, [you can configure some values](#submission) to influence when AppAnalytics submits data.
+As discussed above [in the Configuration section](#submission), you can configure some values to influence when AppAnalytics submits data.
 
 #### Forcing a submission attempt
 You can trigger a submission attempt at any time by calling the `AppAnalytics.submitNow()` method.
