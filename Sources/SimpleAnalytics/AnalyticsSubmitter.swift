@@ -80,7 +80,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                     }
 
                     if let data = data {
-                        let message = handleResponseData(data)
+                        let message = self.handleResponseData(data)
                         successHandler(message)
                     } else {
                         errorHandler(items, itemCounts)
