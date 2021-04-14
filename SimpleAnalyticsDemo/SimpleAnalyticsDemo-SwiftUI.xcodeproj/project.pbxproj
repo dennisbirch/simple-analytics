@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D87DCA6426277502000668A3 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		D89818A6260A89B10066E8FB /* SimpleAnalyticsDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleAnalyticsDemoApp.swift; sourceTree = "<group>"; };
 		D89818A7260A89B10066E8FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D89818A8260A89B30066E8FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,6 +68,7 @@
 		D89818A5260A89B10066E8FB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				D87DCA6426277502000668A3 /* README.txt */,
 				D89818A6260A89B10066E8FB /* SimpleAnalyticsDemoApp.swift */,
 				D89818A7260A89B10066E8FB /* ContentView.swift */,
 				D89818C7260A8A2B0066E8FB /* AnalyticsManager.swift */,
