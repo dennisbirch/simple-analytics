@@ -118,6 +118,7 @@ AppAnalytics submits its data in a JSON payload with the following format:
 |              | _parameters_: An *optional* String:String dictionary of additional details                                    |
 |              | _device_id_: A string with a unique identifier for your app on each device running it                         |
 |              | _app_name_: A string with the name of the application where the analytics item was generated                  |
+|              | _app_version_: A string with the application's version number, as defined in its info.plist file                  |
 |              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS), and the device type (iPhone or iPad) for iOS   |
 |              | _system_version_: A string with the operating system version the user is running                              |
 |              | _timestamp_ : A string with the date and time that the item was generated, in ISO8661 format for the user's timezone |
@@ -126,6 +127,7 @@ AppAnalytics submits its data in a JSON payload with the following format:
 |              | _count_: The number of times the event was counted during the current analytics collection session            |
 |              | _device_id_: A string with a unique identifier for your app on each device running it                         |
 |              | _app_name_: A string with the name of the application where the analytics item was generated                  |
+|              | _app_version_: A string with the application's version number, as defined in its info.plist file                  |
 |              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS), and the device type (iPhone or iPad) for iOS   |
 |              | _system_version_: A string with the operating system version the user is running                              |
 

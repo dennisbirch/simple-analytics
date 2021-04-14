@@ -39,6 +39,7 @@ public class AppAnalytics {
 
     var endpoint: String = ""
     var appName: String
+    var appVersion: String
     var platform: String
     private var deviceID: String
     private var systemVersion: String
@@ -173,7 +174,7 @@ public class AppAnalytics {
     // MARK: - Internal & Private Methods
     // MARK: - 
     
-    init(endpoint: String = "", appName: String = "") {
+    init(endpoint: String = "", appName: String = "", applicationVersion: String = "") {
         self.endpoint = endpoint
 
         var name = appName
@@ -189,6 +190,20 @@ public class AppAnalytics {
         }
       
         self.appName = name
+
+        var version = applicationVersion
+        if version.isEmpty == true {
+            if let info = Bundle.main.infoDictionary {
+                if let bundleName = info["CFBundleVersion"] as? String {
+                    version = bundleName
+                }
+            }
+        }
+        if version.isEmpty == true {
+            name = "App version N/A"
+        }
+        
+        self.appVersion = version
 
         let analyticsID = "App Analytics Identifier"
         if let identifier = UserDefaults.standard.string(forKey: analyticsID) {
@@ -270,7 +285,7 @@ public class AppAnalytics {
             return
         }
 
-        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, platform: platform, systemVersion: systemVersion)
+        let submitter = self.submitter ?? AnalyticsSubmitter(endpoint: endpoint, deviceID: deviceID, applicationName: appName, appVersion: appVersion, platform: platform, systemVersion: systemVersion)
         self.submitter = submitter
 
         self.items.removeAll()
