@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SimpleAnalyticsDemo-UIKit/SimpleAnalyticsDemo-UIKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SimpleAnalyticsDemo/SimpleAnalyticsDemo.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SimpleAnalyticsDemo-AppKit/SimpleAnalyticsDemo-AppKit.xcodeproj">
    </FileRef>
 </Workspace>
