@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D89818AC260A89B30066E8FB"
-               BuildableName = "SimpleAnalyticsDemo-Universal.app"
+               BuildableName = "SimpleAnalyticsDemo-SwiftUI.app"
                BlueprintName = "SimpleAnalyticsDemo-SwiftUI (iOS)"
                ReferencedContainer = "container:SimpleAnalyticsDemo-SwiftUI.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D89818AC260A89B30066E8FB"
-            BuildableName = "SimpleAnalyticsDemo-Universal.app"
+            BuildableName = "SimpleAnalyticsDemo-SwiftUI.app"
             BlueprintName = "SimpleAnalyticsDemo-SwiftUI (iOS)"
             ReferencedContainer = "container:SimpleAnalyticsDemo-SwiftUI.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D89818AC260A89B30066E8FB"
-            BuildableName = "SimpleAnalyticsDemo-Universal.app"
+            BuildableName = "SimpleAnalyticsDemo-SwiftUI.app"
             BlueprintName = "SimpleAnalyticsDemo-SwiftUI (iOS)"
             ReferencedContainer = "container:SimpleAnalyticsDemo-SwiftUI.xcodeproj">
          </BuildableReference>
