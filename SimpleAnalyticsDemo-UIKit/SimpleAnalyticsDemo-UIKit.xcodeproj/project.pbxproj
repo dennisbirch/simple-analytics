@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,9 @@
 		D87DCA3F262761E4000668A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA3D262761E4000668A3 /* Main.storyboard */; };
 		D87DCA41262761E5000668A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA40262761E5000668A3 /* Assets.xcassets */; };
 		D87DCA44262761E5000668A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA42262761E5000668A3 /* LaunchScreen.storyboard */; };
+		D87DCA4F26276314000668A3 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87DCA4E26276314000668A3 /* AnalyticsManager.swift */; };
+		D87DCA5526276453000668A3 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87DCA5426276453000668A3 /* ButtonTableViewCell.swift */; };
+		D87DCA5926276919000668A3 /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D87DCA5826276919000668A3 /* SimpleAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,8 @@
 		D87DCA40262761E5000668A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D87DCA43262761E5000668A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D87DCA45262761E5000668A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D87DCA4E26276314000668A3 /* AnalyticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsManager.swift; path = ../../SimpleAnalyticsDemo/Shared/AnalyticsManager.swift; sourceTree = "<group>"; };
+		D87DCA5426276453000668A3 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87DCA5926276919000668A3 /* SimpleAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +48,7 @@
 			children = (
 				D87DCA36262761E4000668A3 /* SimpleAnalyticsDemo-UIKit */,
 				D87DCA35262761E4000668A3 /* Products */,
+				D87DCA5726276919000668A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,12 +66,21 @@
 				D87DCA37262761E4000668A3 /* AppDelegate.swift */,
 				D87DCA39262761E4000668A3 /* SceneDelegate.swift */,
 				D87DCA3B262761E4000668A3 /* ViewController.swift */,
+				D87DCA5426276453000668A3 /* ButtonTableViewCell.swift */,
+				D87DCA4E26276314000668A3 /* AnalyticsManager.swift */,
 				D87DCA3D262761E4000668A3 /* Main.storyboard */,
 				D87DCA40262761E5000668A3 /* Assets.xcassets */,
 				D87DCA42262761E5000668A3 /* LaunchScreen.storyboard */,
 				D87DCA45262761E5000668A3 /* Info.plist */,
 			);
 			path = "SimpleAnalyticsDemo-UIKit";
+			sourceTree = "<group>";
+		};
+		D87DCA5726276919000668A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +99,9 @@
 			dependencies = (
 			);
 			name = "SimpleAnalyticsDemo-UIKit";
+			packageProductDependencies = (
+				D87DCA5826276919000668A3 /* SimpleAnalytics */,
+			);
 			productName = "SimpleAnalyticsDemo-UIKit";
 			productReference = D87DCA34262761E4000668A3 /* SimpleAnalyticsDemo-UIKit.app */;
 			productType = "com.apple.product-type.application";
@@ -137,7 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87DCA4F26276314000668A3 /* AnalyticsManager.swift in Sources */,
 				D87DCA3C262761E4000668A3 /* ViewController.swift in Sources */,
+				D87DCA5526276453000668A3 /* ButtonTableViewCell.swift in Sources */,
 				D87DCA38262761E4000668A3 /* AppDelegate.swift in Sources */,
 				D87DCA3A262761E4000668A3 /* SceneDelegate.swift in Sources */,
 			);
@@ -289,6 +310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B75Q6TLYBM;
 				INFOPLIST_FILE = "SimpleAnalyticsDemo-UIKit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,6 +330,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B75Q6TLYBM;
 				INFOPLIST_FILE = "SimpleAnalyticsDemo-UIKit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,6 +364,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D87DCA5826276919000668A3 /* SimpleAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimpleAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D87DCA2C262761E4000668A3 /* Project object */;
 }
