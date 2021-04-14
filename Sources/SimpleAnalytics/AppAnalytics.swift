@@ -215,7 +215,8 @@ public class AppAnalytics {
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willTerminateNotification, object: nil)
         #elseif os(macOS)
         platform = "macOS"
-        systemVersion = ProcessInfo().operatingSystemVersionString
+        let vers = ProcessInfo().operatingSystemVersion
+        systemVersion = "\(vers.majorVersion).\(vers.minorVersion).\(vers.patchVersion)"
 
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willTerminateNotification, object: nil)

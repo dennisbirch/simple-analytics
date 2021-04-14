@@ -24,7 +24,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                      successHandler: @escaping(String) -> Void,
                      errorHandler: @escaping([AnalyticsItem], [AnalyticsCount]) -> Void) {
         guard endpoint.isEmpty == false else {
-            let requiresEnpointString =
+            let requiresEndpointString =
                 """
                 
                 ===================
@@ -33,7 +33,7 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
                 ===================
                 
                 """
-            SimpleAnalytics.debugLog("%@", requiresEnpointString)
+            SimpleAnalytics.debugLog("%@", requiresEndpointString)
             errorHandler(items, itemCounts)
             return
         }
