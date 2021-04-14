@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,8 @@
 		D87DCA1C26276189000668A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87DCA1B26276189000668A3 /* ViewController.swift */; };
 		D87DCA1E2627618A000668A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA1D2627618A000668A3 /* Assets.xcassets */; };
 		D87DCA212627618A000668A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA1F2627618A000668A3 /* Main.storyboard */; };
+		D87DCA5226276321000668A3 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87DCA5126276321000668A3 /* AnalyticsManager.swift */; };
+		D87DCA5D26276933000668A3 /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D87DCA5C26276933000668A3 /* SimpleAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,7 @@
 		D87DCA202627618A000668A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D87DCA222627618A000668A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D87DCA232627618A000668A3 /* SimpleAnalyticsDemo_AppKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleAnalyticsDemo_AppKit.entitlements; sourceTree = "<group>"; };
+		D87DCA5126276321000668A3 /* AnalyticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsManager.swift; path = ../../SimpleAnalyticsDemo/Shared/AnalyticsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87DCA5D26276933000668A3 /* SimpleAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +43,7 @@
 			children = (
 				D87DCA1826276189000668A3 /* SimpleAnalyticsDemo-AppKit */,
 				D87DCA1726276189000668A3 /* Products */,
+				D87DCA5B26276933000668A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,12 +60,20 @@
 			children = (
 				D87DCA1926276189000668A3 /* AppDelegate.swift */,
 				D87DCA1B26276189000668A3 /* ViewController.swift */,
+				D87DCA5126276321000668A3 /* AnalyticsManager.swift */,
 				D87DCA1D2627618A000668A3 /* Assets.xcassets */,
 				D87DCA1F2627618A000668A3 /* Main.storyboard */,
 				D87DCA222627618A000668A3 /* Info.plist */,
 				D87DCA232627618A000668A3 /* SimpleAnalyticsDemo_AppKit.entitlements */,
 			);
 			path = "SimpleAnalyticsDemo-AppKit";
+			sourceTree = "<group>";
+		};
+		D87DCA5B26276933000668A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -79,6 +92,9 @@
 			dependencies = (
 			);
 			name = "SimpleAnalyticsDemo-AppKit";
+			packageProductDependencies = (
+				D87DCA5C26276933000668A3 /* SimpleAnalytics */,
+			);
 			productName = "SimpleAnalyticsDemo-AppKit";
 			productReference = D87DCA1626276189000668A3 /* SimpleAnalyticsDemo-AppKit.app */;
 			productType = "com.apple.product-type.application";
@@ -132,6 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87DCA5226276321000668A3 /* AnalyticsManager.swift in Sources */,
 				D87DCA1C26276189000668A3 /* ViewController.swift in Sources */,
 				D87DCA1A26276189000668A3 /* AppDelegate.swift in Sources */,
 			);
@@ -330,6 +347,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D87DCA5C26276933000668A3 /* SimpleAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimpleAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D87DCA0E26276189000668A3 /* Project object */;
 }

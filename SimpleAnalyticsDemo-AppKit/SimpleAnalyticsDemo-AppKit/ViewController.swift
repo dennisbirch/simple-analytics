@@ -8,19 +8,21 @@
 import Cocoa
 
 class ViewController: NSViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        DemoAnalytics.addAnalyticsItem("Display main view")
     }
 
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
+    @IBAction func handleButtonPress(_ sender: NSButton) {
+        let name = sender.title
+        
+        if name.lowercased().contains("repeat") {
+            DemoAnalytics.countItem(name)
+        } else {
+            DemoAnalytics.addAnalyticsItem(name)
         }
     }
-
 
 }
 
