@@ -5,7 +5,7 @@
       location = "group:SimpleAnalyticsDemo-UIKit/SimpleAnalyticsDemo-UIKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SimpleAnalyticsDemo/SimpleAnalyticsDemo.xcodeproj">
+      location = "group:/Users/dennisbirch/Documents/Projects/simple-analytics/SimpleAnalyticsDemo/SimpleAnalyticsDemo-SwiftUI.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SimpleAnalyticsDemo-AppKit/SimpleAnalyticsDemo-AppKit.xcodeproj">
