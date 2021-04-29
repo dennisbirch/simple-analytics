@@ -54,8 +54,15 @@ struct PlaySoundButton: View {
     }
     
     private func playSound(_ title: String) {
-        DemoAnalytics.addAnalyticsItem("Play sound: \(title)")
+        DemoAnalytics.addAnalyticsItem("Play sound: \(title)", params: ["Demo details" : randomString()])
         // do whatever else this button should do
+    }
+    
+    private func randomString() -> String {
+        let wordArray = "The quick brown fox jumped over the cow".split(separator: " ")
+        let count = wordArray.count
+        let index = arc4random_uniform(UInt32(count))
+        return String(wordArray[Int(index)])
     }
 }
 

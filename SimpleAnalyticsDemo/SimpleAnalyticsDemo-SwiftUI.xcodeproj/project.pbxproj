@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D82338A6263B213E00BF560A /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D82338A5263B213E00BF560A /* SimpleAnalytics */; };
 		D89818B9260A89B30066E8FB /* SimpleAnalyticsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818A6260A89B10066E8FB /* SimpleAnalyticsDemoApp.swift */; };
 		D89818BA260A89B30066E8FB /* SimpleAnalyticsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818A6260A89B10066E8FB /* SimpleAnalyticsDemoApp.swift */; };
 		D89818BB260A89B30066E8FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818A7260A89B10066E8FB /* ContentView.swift */; };
@@ -15,7 +16,6 @@
 		D89818BE260A89B30066E8FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D89818A8260A89B30066E8FB /* Assets.xcassets */; };
 		D89818C8260A8A2B0066E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818C7260A8A2B0066E8FB /* AnalyticsManager.swift */; };
 		D89818C9260A8A2B0066E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89818C7260A8A2B0066E8FB /* AnalyticsManager.swift */; };
-		D89818CD260A8B8B0066E8FB /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D89818CC260A8B8B0066E8FB /* SimpleAnalytics */; };
 		D89818CF260A8BAE0066E8FB /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D89818CE260A8BAE0066E8FB /* SimpleAnalytics */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D89818CD260A8B8B0066E8FB /* SimpleAnalytics in Frameworks */,
+				D82338A6263B213E00BF560A /* SimpleAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +127,7 @@
 			);
 			name = "SimpleAnalyticsDemo-SwiftUI (iOS)";
 			packageProductDependencies = (
-				D89818CC260A8B8B0066E8FB /* SimpleAnalytics */,
+				D82338A5263B213E00BF560A /* SimpleAnalytics */,
 			);
 			productName = "SimpleAnalyticsDemo (iOS)";
 			productReference = D89818AD260A89B30066E8FB /* SimpleAnalyticsDemo-SwiftUI.app */;
@@ -469,7 +469,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D89818CC260A8B8B0066E8FB /* SimpleAnalytics */ = {
+		D82338A5263B213E00BF560A /* SimpleAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SimpleAnalytics;
 		};
