@@ -13,11 +13,11 @@ import AppKit
 #endif
 import os.log
 
-public class AppAnalytics {
+@objc public class AppAnalytics: NSObject {
     // MARK: - Public & Accessible Properties
 
     /// Getter for the count of all active items to be submitted.
-    public static var itemCount: Int {
+    @objc public static var itemCount: Int {
         return shared.items.count + shared.itemCounts.count
     }
     
@@ -61,13 +61,13 @@ public class AppAnalytics {
     /// - Parameters:
     ///   - description: String describing the action or user interaction
     ///   - params: An optional String:String dictionary of additional details to record (e.g. certain app state observations) for more refined analysis
-    public static func addItem(_ description: String, params: [String : String]? = nil) {
+    @objc public static func addItem(_ description: String, params: [String : String]? = nil) {
         shared.addAnalyticsItem(description, params: params)
     }
     
     /// Static method to count an occurrence of any event
     /// - Parameter description: String describing the item to be counted. An item is added and set to a value of 1, or incremented by 1.
-    public static func countItem(_ description: String) {
+    @objc public static func countItem(_ description: String) {
         shared.addCount(description)
     }
     
@@ -75,31 +75,31 @@ public class AppAnalytics {
     
     /// Static method to set the *endPoint* property
     /// - Parameter urlString: String for the endpoint's URL
-    public static func setEndpoint(_ urlString: String) {
+    @objc public static func setEndpoint(_ urlString: String) {
         shared.endpoint = urlString
     }
     
     /// A static method to set the *platform* property
     /// - Parameter platformName: String with a platform name. The framework automatically assigns the values *iOS* and *macOS* for those platforms, but if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with this method.
-    public static func setPlatform(_ platformName: String) {
+    @objc public static func setPlatform(_ platformName: String) {
         shared.platform = platformName
     }
     
     /// A static method to change the base count for maximum number of items to accumulate
     /// - Parameter count: Int defining the base maximum number of items to accumulate before attempting to submit them to your server. The default value is 100. This number is incremented by the value of the *maxCountResetValue* property in cases of submissions failing.
-    public static func setMaxItemCount(_ count: Int) {
+    @objc public static func setMaxItemCount(_ count: Int) {
         shared.setMaxCount(count)
     }
     
     /// A static method to change the value of the property added to the maximum count after a submission failure.
     /// - Parameter increment: Int defining the amount to be added to the maximum item count before again attempting to submit entries. This value is used when a submission fails to add a delay before again attempting to reach your server.
-    public static func setSubmitFailureIncrement(_ increment: Int) {
+    @objc public static func setSubmitFailureIncrement(_ increment: Int) {
         shared.maxCountResetValue = increment
     }
     
     /// A static method to allow overriding the *submitAtDismiss* functionality
     /// - Parameter shouldSubmit: AppAnalytics listens for *appWillResign* and *appWillTerminate* notifications. It responds to those when possible by attempting to submit current entries. If you want to override that behavior, you can call this method with an argument of *false*, or re-enable it with an argument of *true*.
-    public static func overrideSubmitAtDismiss(shouldSubmit: Bool) {
+    @objc public static func overrideSubmitAtDismiss(shouldSubmit: Bool) {
         shared.shouldSubmitAtAppDismiss = shouldSubmit
     }
     
@@ -108,14 +108,14 @@ public class AppAnalytics {
     /// A static method to trigger submission of collected analytics
     ///
     /// **NOTE**: The framework automatically submits analytics to the server when sufficient numbers have accumulated. You may want to arbitrarily submit entries at other times with this method.
-    public static func submitNow() {
+    @objc public static func submitNow() {
         shared.clearAndSubmitItems()
     }
     
     /// A static method to write current contents to disk.
     ///
     /// This method can be called from your app to capture the current analytics values. It should probably only be used when the app is being backgrounded or terminated, and in that case with the *shouldSubmitAtAppDismiss* value set to false to avoid duplicating entries.
-    public static func persistContents() {
+    @objc public static func persistContents() {
         let fileMgr = FileManager()
         let url = fileMgr.temporaryDirectory.appendingPathComponent(persistenceFileName)
         if fileMgr.fileExists(atPath: url.path) {
@@ -138,7 +138,7 @@ public class AppAnalytics {
     /// A static method to restore values persisted with the `persistContents` method
     ///
     /// This method can be called from your app to restore values persisted to disk. It should probably only be called when the app is being activated, and in that case with the *shouldSubmitAtAppDismiss* value set to false to avoid duplicating entries.
-    public static func restorePersistenceContents() {
+    @objc public static func restorePersistenceContents() {
         let fileMgr = FileManager()
         let url = fileMgr.temporaryDirectory.appendingPathComponent(persistenceFileName)
         let path = url.path
@@ -226,6 +226,7 @@ public class AppAnalytics {
         platform = "iOS (\(deviceType))"
         systemVersion = UIDevice.current.systemVersion
 
+        super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willTerminateNotification, object: nil)
         #elseif os(macOS)
@@ -233,6 +234,7 @@ public class AppAnalytics {
         let vers = ProcessInfo().operatingSystemVersion
         systemVersion = "\(vers.majorVersion).\(vers.minorVersion).\(vers.patchVersion)"
 
+        super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willTerminateNotification, object: nil)
         #endif
