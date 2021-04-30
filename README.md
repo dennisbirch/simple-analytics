@@ -130,6 +130,7 @@ AppAnalytics submits its data in a JSON payload with the following format:
 |              | _app_version_: A string with the application's version number, as defined in its info.plist file                  |
 |              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS), and the device type (iPhone or iPad) for iOS   |
 |              | _system_version_: A string with the operating system version the user is running                              |
+|              | _timestamp_: A string with the date and time that the first count was recorded, in ISO8661 format for the user's timezone |
 
 ##### JSON Response
 Your web app should respond to handling the payload with a JSON payload in the following format:
