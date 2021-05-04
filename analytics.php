@@ -18,6 +18,8 @@ device_id: VarChar
 app_name: VarChar
 app_version: VarChar
 platform: VarChar
+system_version: VarChar
+timestamp: DateTime
 id: Auto incrementing primary key
 
 
@@ -28,6 +30,8 @@ device_id: VarChar
 app_name: VarChar
 app_version: VarChar
 platform: VarChar
+system_version: VarChar
+timestamp: DateTime
 id: Auto incrementing primary key
 
 ****************
