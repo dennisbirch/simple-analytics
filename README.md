@@ -21,10 +21,34 @@ Be sure to add SimpleAnalytics to your target's Frameworks list.
 
 ![Adding reference to SimpleAnalytics framework.](images/add-framework.png)
 
-Then import SimpleAnalytics in any files in your project where you're calling its methods or accessing its properties.
+## Usage
+Once you've added SimpleAnalytics to your Xcode project, you can begin adding code to begin capturing app usage data.
 
-## Contributing
-Contributions are welcome. To suggest an improvement, please submit a pull request.
+The first step is to configure the app to point to a web service that you've set up to handle SimpleAnalytics requests. 
+
+* See any of the example apps included in the package for implementations of app configuration. 
+* See the documentation below for more details on what is required for configuring the app, and what the web app expects to receive and should return. 
+* See the _analytics.php_ file for an example of a back-end web app.
+
+You can call into the SimpleAnalytics package from anywhere in your application's code by importing the SimpleAnalytics module, and then using one of the two static methods available to record observations. As described in more detail below, there are methods for 1) recording an action with optional additional details, and 2) incrementing a counter when an action occurs. 
+
+In code that could look like:
+
+```
+AppAnalytics.addItem("Logged out")
+AppAnalytics.addItem("Logged in", params: ["method" : loginMethod])
+AppAnalytics.addItem("Changed 'Timeout' settings", params: ["minutes" : String(newTimeout),
+                                                            "apply to" : String(describing: applyToOptions)])
+
+AppAnalytics.countItem("Foregrounded app")
+AppAnalytics.countItem("Set new password")
+
+```
+See any of the example applications for other usage examples, and an approach to centralizing calls to the SimpleAnalytics module in one controller type.
+
+## Viewing collected data
+
+A companion open-source project, __SimpleAnalytics Reader__ is available to allow you to view the data your apps are collecting about their usage. You can find it at <https://www.github.com/dennisbirch/simple-analytics-reader>. It includes source for a macOS app, and a backend web app you can run as is, or use for inspiration to write your own back-end.
 
 ## Documentation
 ### Configuration
@@ -150,4 +174,7 @@ SimpleAnalytics provides methods for persisting collected data to disk and resto
 To persist analytics data, call the `AppAnalytics.persistContents()` method. 
 
 To restore saved contents (e.g. at app launch), call the `AppAnalytics.restorePersistenceContents()` method.
+
+## Contributing
+Contributions are welcome. To suggest an improvement, please submit a pull request.
 
