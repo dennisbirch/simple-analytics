@@ -6,7 +6,7 @@
 ### A lightweight analytics reporting package for iOS and macOS projects.
 You may want to gain the insights that analytics reporting can provide to your iOS or Mac app, but don't want to take on the unknowns, or the potentially intrusive oversharing that some third party analytics packages perform. _SimpleAnalytics_ is an alternative that puts all the control of what goes out, and who it goes to, into your hands.
 
-SimpleAnalytics allows you to capture user actions in your apps and submit them to a server you control or have access to.
+SimpleAnalytics allows you to capture user actions in your apps and submit them to a server you control or have access to. The companion project, [__SimpleAnalytics Reader__](https://www.github.com/dennisbirch/simple-analytics-reader) (see the _Viewing collected data_ section below), lets you access the data you collect in a Macintosh desktop application.
 
 See the SimpleAnalyticsDemo project for a rudimentary example of using it in an Xcode project.
 
@@ -15,7 +15,7 @@ SimpleAnalytics is distributed as a Swift package, which you can load into Xcode
 
 In the Swift Packages section of the Project configuration panel, inlude a dependency for SimpleAnalytics with the URL:
 
-https://github.com/dennisbirch/simple-analytics
+`https://github.com/dennisbirch/simple-analytics`
 
 Be sure to add SimpleAnalytics to your target's Frameworks list.
 
@@ -47,8 +47,9 @@ AppAnalytics.countItem("Set new password")
 See any of the example applications for other usage examples, and an approach to centralizing calls to the SimpleAnalytics module in one controller type.
 
 ## Viewing collected data
+![SimpleAnalytics Reader screenshots.](images/simpleanalytics-reader.png)
 
-A companion open-source project, __SimpleAnalytics Reader__ is available to allow you to view the data your apps are collecting about their usage. You can find it at <https://www.github.com/dennisbirch/simple-analytics-reader>. It includes source for a macOS app, and a backend web app you can run as is, or use for inspiration to write your own back-end.
+A companion open-source project, __SimpleAnalytics Reader__ is available to allow you to view the data your apps are collecting about their usage. You can find it at <https://www.github.com/dennisbirch/simple-analytics-reader>. It includes source for a macOS app, and a backend web app you can run as is, or use for inspiration to write your own back-end. The interface offers different ways of querying for and viewing data to fit your needs.
 
 ## Documentation
 ### Configuration
