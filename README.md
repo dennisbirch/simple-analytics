@@ -13,11 +13,11 @@ See the SimpleAnalyticsDemo project for a rudimentary example of using it in an 
 ## Installation
 SimpleAnalytics is distributed as a Swift package, which you can load into Xcode projects using the available tools built into Xcode 11.0 and higher.
 
-In the Swift Packages section of the Project configuration panel, inlude a dependency for SimpleAnalytics with the URL:
+In the Swift Packages section of the Project configuration panel, include a dependency for SimpleAnalytics with the URL:
 
 `https://github.com/dennisbirch/simple-analytics`
 
-Be sure to add SimpleAnalytics to your target's Frameworks list.
+Be sure to add SimpleAnalytics to your target's Frameworks list if it isn't added automatically.
 
 ![Adding reference to SimpleAnalytics framework.](images/add-framework.png)
 
@@ -55,19 +55,29 @@ A companion open-source project, __SimpleAnalytics Reader__ is available to allo
 ### Configuration
 The SimpleAnalytics package requires one configuration step for full implementation, and offers a couple of other configuration options.
 
-#### Endpoint
-In order to submit your app's analytics data from users' devices to a web service where you can access it, you'll need to set the endpoint for the web service. The web service can be any web application that can handle a JSON payload.
+#### Endpoint (and shared application on iOS)
+In order to submit your app's analytics data from users' devices to a web service where you can access it, you'll need to set the endpoint for the web service. The web service can be any web application that can handle a JSON payload. 
 
-To set the endpoint, call the `AppAnalytics.setEndpoint(_ :)` method.
+New in version 2.0 and higher: On iOS, you also need to provide a reference to the shared application instance. SimpleAnalytics uses this to request and dispose of a background task when submitting data to your web service.
+
+To set the endpoint on __macOS__, call the `AppAnalytics.setEndpoint(_:)` method.
+
+__Parameters:__
+
+_urlString_: String for your web service URL.
+
+To set the endpoint and shared app on __iOS__, call the `AppAnalytics.setEndpoint(_:, sharedApp:)` method.
 
 __Parameters:__
 
 _urlString_: String for your web service URL. 
 
+_sharedApp_: Pass the __UIApplication.shared__ property to this argument.
+
 This call should be made as early as possible in your app's lifecycle.
 
 #### Platform name
-To help differentiate data entries, SimpleAnalytics includes a field for the platform for every entry. The framework automatically assigns the values *iOS* and *macOS* for those platforms along with the device type for iOS. But if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with the `AppAnalytics.setPlatform(_ :)` method.
+To help differentiate data entries, SimpleAnalytics includes a field for the platform for every entry. The framework automatically assigns the values *iOS* and *macOS* for those platforms along with the device type for iOS. But if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with the `AppAnalytics.setPlatform(_:)` method.
 
 __Parameters:__
 
@@ -75,7 +85,7 @@ _platformName_: String with a platform name.
 
 #### <span id=submission>Maximum count</span>
 
-SimpleAnalytics automatically attempts to submit its contents when the total count of its data items reaches the maximum count value. The default maximum value is 100, but you can change that to fit the needs of your application. To change the maximum count value, call the `AppAnalytics.setMaxItemCount(_ :)` method.
+SimpleAnalytics automatically attempts to submit its contents when the total count of its data items reaches the maximum count value. The default maximum value is 100, but you can change that to fit the needs of your application. To change the maximum count value, call the `AppAnalytics.setMaxItemCount(_:)` method.
 
 __Parameters:__
 
@@ -83,7 +93,7 @@ _count_: Int defining the base maximum number of items to accumulate before atte
 
 #### Submit failure increment
 
-When a submit attempt fails, SimpleAnalytics restores the items it was attempting to submit for a subsequent resubmit attempt. It also increments the maximum count value to add a delay before subsequent new events trigger another submission attempt. The default value for this failure increment is 20. You can change that by calling the `AppAnalytics.setSubmitFailureIncrement(_ :)` method.
+When a submit attempt fails, SimpleAnalytics restores the items it was attempting to submit for a subsequent resubmit attempt. It also increments the maximum count value to add a delay before subsequent new events trigger another submission attempt. The default value for this failure increment is 20. You can change that by calling the `AppAnalytics.setSubmitFailureIncrement(_:)` method.
 
 __Parameters:__
 
@@ -146,7 +156,7 @@ AppAnalytics submits its data in a JSON payload with the following format:
 |              | _app_version_: A string with the application's version number, as defined in its info.plist file                  |
 |              | _platform_: A string with the name of the platform in which the app was running (iOS or macOS), and the device type (iPhone or iPad) for iOS   |
 |              | _system_version_: A string with the operating system version the user is running                              |
-|              | _timestamp_ : A string with the date and time that the item was generated, in ISO8661 format for the user's timezone |
+|              | _timestamp_: A string with the date and time that the item was generated, in ISO8661 format for the user's timezone |
 |__counters__  | An array of 'counters', each of which includes:                                                               |
 |              | _name_: The name of the action being counted, as defined by the call to AppAnalytics.countItem(_:)            |
 |              | _count_: The number of times the event was counted during the current analytics collection session            |

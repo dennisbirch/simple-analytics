@@ -38,8 +38,8 @@ struct SecondButtonGroup: View {
             PlaySoundButton(title: "Soft Sigh")
             PlaySoundButton(title: "Thunderclap")
             PlaySoundButton(title: "Ocean Wave Crashing")
-            CountActionButton(title: "Repeat Last")
-            CountActionButton(title: "Repeat Last (Other)")
+            CountActionButton(title: "Count Something")
+            CountActionButton(title: "Count Something Else")
         }
     }
 }

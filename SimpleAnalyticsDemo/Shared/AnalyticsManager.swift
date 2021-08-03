@@ -6,6 +6,9 @@
 
 import Foundation
 import SimpleAnalytics
+#if os(iOS)
+import UIKit
+#endif
 
 /*
  This is an app-level manager for SimpleAnalytics to allow avoid calls directly to SimpleAnalytics throughout the rest of the app. If we needed to change to a different Analytics solution, we would then only need to rewrite this file after installing the other analytics solution's dependencies.
@@ -15,7 +18,11 @@ import SimpleAnalytics
 
 struct DemoAnalytics {
     static func initializeEndpoint() {
+        #if os(macOS)
         AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE")
+        #elseif os(iOS)
+        AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE", sharedApp: UIApplication.shared)
+        #endif
     }
     
     static func addAnalyticsItem(_ item: String, params: [String : String]? = nil) {

@@ -17,7 +17,7 @@ class ViewController: NSViewController {
     @IBAction func handleButtonPress(_ sender: NSButton) {
         let name = sender.title
         
-        if name.lowercased().contains("repeat") {
+        if name.lowercased().contains("count something") {
             DemoAnalytics.countItem(name)
         } else {
             DemoAnalytics.addAnalyticsItem(name, params: ["Demo detail" : randomString()])

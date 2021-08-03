@@ -50,6 +50,7 @@ import os.log
     
     #if os(iOS)
     private var backgroundTaskID = UIBackgroundTaskIdentifier(rawValue: 5000)
+    private var sharedUIApp: UIApplication?
     #endif
 
     
@@ -75,9 +76,24 @@ import os.log
     
     /// Static method to set the *endPoint* property
     /// - Parameter urlString: String for the endpoint's URL
+    ///
+    /// This method is required for configuring the framework on macOS.
+    @available (iOS, deprecated: 13.0, message: "Please use the setEndpoint(_:, sharedApp:) method")
     @objc public static func setEndpoint(_ urlString: String) {
         shared.endpoint = urlString
     }
+    
+    #if os(iOS)
+    /// Static method to set the *endPoint* and *sharedApp* properties
+    /// - Parameter urlString: String for the endpoint's URL
+    /// - Parameter sharedApp: The shared UIApplication that should be used for managing background tasks. Pass in UIApplication.shared to this argument.
+    ///
+    /// This method should be used for configuring the framework in iOS.
+    @objc public static func setEndpoint(_ urlString: String, sharedApp: UIApplication?) {
+        shared.endpoint = urlString
+        shared.sharedUIApp = sharedApp
+    }
+    #endif
     
     /// A static method to set the *platform* property
     /// - Parameter platformName: String with a platform name. The framework automatically assigns the values *iOS* and *macOS* for those platforms, but if your app is running in a hybrid environment (e.g. iOS app running on Mac), you can override that assignment with this method.
@@ -216,7 +232,7 @@ import os.log
         
         maxItemCount = baseItemCount
         
-        #if os(iOS)
+#if os(iOS)
         let deviceType: String
         if UIDevice.current.userInterfaceIdiom == .phone {
             deviceType = "iPhone"
@@ -229,7 +245,7 @@ import os.log
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: UIApplication.willTerminateNotification, object: nil)
-        #elseif os(macOS)
+#elseif os(macOS)
         platform = "macOS"
         let vers = ProcessInfo().operatingSystemVersion
         systemVersion = "\(vers.majorVersion).\(vers.minorVersion).\(vers.patchVersion)"
@@ -237,7 +253,7 @@ import os.log
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedDismissNotification(_:)), name: NSApplication.willTerminateNotification, object: nil)
-        #endif
+#endif
     }
     
     func addAnalyticsItem(_ description: String, params: [String : String]? = nil) {
@@ -279,11 +295,11 @@ import os.log
         
         guard items.isEmpty == false || counters.isEmpty == false else {
             SimpleAnalytics.debugLog("Nothing to submit")
-            #if os(iOS)
+#if os(iOS)
             if backgroundTaskID != .invalid {
-                UIApplication.shared.endBackgroundTask(backgroundTaskID)
+                sharedUIApp?.endBackgroundTask(backgroundTaskID)
             }
-            #endif
+#endif
             return
         }
 
@@ -306,23 +322,23 @@ import os.log
                     self?.maxItemCount = base
                 }
             }
-            #if os(iOS)
+#if os(iOS)
             if let task = self?.backgroundTaskID,
                task != .invalid {
-                UIApplication.shared.endBackgroundTask(task)
+                self?.sharedUIApp?.endBackgroundTask(task)
             }
-            #endif
+#endif
         }) { [weak self] (errorItems, errorCounters) in
             // restore to respective properties
             DispatchQueue.main.async {
                 SimpleAnalytics.debugLog("Analytics submission failed. Restoring items.")
                 self?.resetItems(errorItems, counters: errorCounters)
-                #if os(iOS)
+#if os(iOS)
                 if let task = self?.backgroundTaskID,
                    task != .invalid {
-                    UIApplication.shared.endBackgroundTask(task)
+                    self?.sharedUIApp?.endBackgroundTask(task)
                 }
-                #endif
+#endif
             }
         }
     }
@@ -338,21 +354,23 @@ import os.log
     
     @objc private func receivedDismissNotification(_ notification: Notification) {
         if shouldSubmitAtAppDismiss == true {
-            #if os(iOS)
-            backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: { [weak self] in
-                if let task = self?.backgroundTaskID {
-                    UIApplication.shared.endBackgroundTask(task)
-                    self?.backgroundTaskID = .invalid
-                }
-            })
+#if os(iOS)
+            if let sharedApp = sharedUIApp {
+                backgroundTaskID = sharedApp.beginBackgroundTask(withName: "Submit Analytics Data", expirationHandler: { [weak self] in
+                    if let task = self?.backgroundTaskID {
+                        sharedApp.endBackgroundTask(task)
+                        self?.backgroundTaskID = .invalid
+                    }
+                })
+            }
             DispatchQueue.main.async { [weak self] in
                 self?.clearAndSubmitItems()
             }
-            #elseif os(macOS)
+#elseif os(macOS)
             DispatchQueue.main.async { [weak self] in
                 self?.clearAndSubmitItems()
             }
-            #endif
+#endif
         }
     }
 }

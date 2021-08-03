@@ -19,11 +19,11 @@
 }
 
 - (IBAction)repeatLast:(NSButton *)sender {
-    [AnalyticsManager addCounter:@"Repeat last"];
+    [AnalyticsManager addCounter:@"Count Something"];
 }
 
 - (IBAction)repeatLastOther:(NSButton *)sender {
-    [AnalyticsManager addCounter:@"Repeat last (other)"];
+    [AnalyticsManager addCounter:@"Count Something Else"];
 }
 
 - (void)playSound:(NSString *)title {

@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource {
     @IBOutlet private weak var tableView: UITableView!
-    private var titles = ["Ring Bell", "Horn Blaring", "Foghorn Warning", "Car Revving", "Dog Barking", "Fire Siren", "Oven Timer", "Car Door Slam", "Heavy Breathing", "Soft Sigh", "Thunderclap", "Ocean Wave Crashing", "Repeat Last", "Repeat Last (Other)"]
+    private var titles = ["Ring Bell", "Horn Blaring", "Foghorn Warning", "Car Revving", "Dog Barking", "Fire Siren", "Oven Timer", "Car Door Slam", "Heavy Breathing", "Soft Sigh", "Thunderclap", "Ocean Wave Crashing", "Count Something", "Count Something Else"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
