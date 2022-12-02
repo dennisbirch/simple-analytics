@@ -65,6 +65,7 @@ To set the endpoint on __macOS__, call the `AppAnalytics.setEndpoint(_:submissio
 __Parameters:__
 
 _urlString_: String for your web service URL.
+
 _submissionCompletionCallback_: An optional completion with no argument and no return value to signal to your macOS app that submission is complete. This can be useful to implement a strategy for terminating the app _after_ analytics submission has completed.
 
 To set the endpoint and shared app on __iOS__, call the `AppAnalytics.setEndpoint(_:, sharedApp:)` method.
