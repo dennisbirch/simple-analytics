@@ -51,6 +51,9 @@ import os.log
     #if os(iOS)
     private var backgroundTaskID = UIBackgroundTaskIdentifier(rawValue: 5000)
     private var sharedUIApp: UIApplication?
+    #elseif os(macOS)
+    // an optional callback to inform your macOS app that submitting data is complete
+    private var submissionCompletionCallback: (() -> Void)?
     #endif
 
     
@@ -74,13 +77,17 @@ import os.log
     
     // MARK: - Configuring output and behavior
     
-    /// Static method to set the *endPoint* property
+    /// Static method to set the *endPoint* and *submissionCompletionCallback* properties
     /// - Parameter urlString: String for the endpoint's URL
+    /// - Parameter submissionCompletionCallback: An optional completion with no argument and no return value, to signal to your macOS app that submission is complete
     ///
     /// This method is required for configuring the framework on macOS.
     @available (iOS, deprecated: 13.0, message: "Please use the setEndpoint(_:, sharedApp:) method")
-    @objc public static func setEndpoint(_ urlString: String) {
+    @objc public static func setEndpoint(_ urlString: String, submissionCompletionCallback: (() -> Void)? = nil) {
         shared.endpoint = urlString
+        #if os(macOS)
+        shared.submissionCompletionCallback = submissionCompletionCallback
+        #endif
     }
     
     #if os(iOS)
@@ -299,6 +306,10 @@ import os.log
             if backgroundTaskID != .invalid {
                 sharedUIApp?.endBackgroundTask(backgroundTaskID)
             }
+#elseif os(macOS)
+            if let completion = self.submissionCompletionCallback {
+                completion()
+            }
 #endif
             return
         }
@@ -326,6 +337,10 @@ import os.log
             if let task = self?.backgroundTaskID,
                task != .invalid {
                 self?.sharedUIApp?.endBackgroundTask(task)
+            }
+#elseif os(macOS)
+            if let completion = self?.submissionCompletionCallback {
+                completion()
             }
 #endif
         }) { [weak self] (errorItems, errorCounters) in
