@@ -17,9 +17,9 @@ import UIKit
  */
 
 struct DemoAnalytics {
-    static func initializeEndpoint() {
+    static func initializeEndpoint(submissionCompletion: (() -> Void)?) {
         #if os(macOS)
-        AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE")
+        AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE", submissionCompletionCallback: submissionCompletion)
         #elseif os(iOS)
         AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE", sharedApp: UIApplication.shared)
         #endif
@@ -33,5 +33,9 @@ struct DemoAnalytics {
     static func countItem(_ description: String) {
         AppAnalytics.countItem(description)
         print("Total analytics items: \(AppAnalytics.itemCount)")
+    }
+    
+    static func submit() {
+        AppAnalytics.submitNow()
     }
 }
