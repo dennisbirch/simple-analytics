@@ -46,6 +46,16 @@ AppAnalytics.countItem("Set new password")
 ```
 See any of the example applications for other usage examples, and an approach to centralizing calls to the SimpleAnalytics module in one controller type.
 
+## Demo apps
+There are four different Xcode projects demonstrating use of the SimpleAnalytics package in different environments, each in a different folder:
+
+* __SimpleAnalyticsDemo__ - A SwiftUI implementation with macOS and iOS targets
+* __SimpleAnalyticsDemo-AppKit__ - A Swift implementation for macOS using AppKit
+* __SimpleAnalyticsDemo-UIKit__ - A Swift implementation for iOS using UIKit
+* __SimpleAnalyticsDemo-ObjC__ - An Objective-C implementation for macOS using AppKit
+
+To run any of them, simply open the _xcodeproj_ file within the folder.
+
 ## Viewing collected data
 ![SimpleAnalytics Reader screenshots.](images/simpleanalytics-reader.png)
 
