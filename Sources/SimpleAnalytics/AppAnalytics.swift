@@ -353,6 +353,10 @@ import os.log
                    task != .invalid {
                     self?.sharedUIApp?.endBackgroundTask(task)
                 }
+#elseif os(macOS)
+                if let completion = self?.submissionCompletionCallback {
+                    completion()
+                }                
 #endif
             }
         }
