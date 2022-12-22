@@ -13,6 +13,7 @@
 		D87DCA212627618A000668A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87DCA1F2627618A000668A3 /* Main.storyboard */; };
 		D87DCA5226276321000668A3 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87DCA5126276321000668A3 /* AnalyticsManager.swift */; };
 		D87DCA5D26276933000668A3 /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D87DCA5C26276933000668A3 /* SimpleAnalytics */; };
+		D8DE3BF52954E1BA0055BDB6 /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D8DE3BF42954E1BA0055BDB6 /* SimpleAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D87DCA5D26276933000668A3 /* SimpleAnalytics in Frameworks */,
+				D8DE3BF52954E1BA0055BDB6 /* SimpleAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +96,7 @@
 			name = "SimpleAnalyticsDemo-AppKit";
 			packageProductDependencies = (
 				D87DCA5C26276933000668A3 /* SimpleAnalytics */,
+				D8DE3BF42954E1BA0055BDB6 /* SimpleAnalytics */,
 			);
 			productName = "SimpleAnalyticsDemo-AppKit";
 			productReference = D87DCA1626276189000668A3 /* SimpleAnalyticsDemo-AppKit.app */;
@@ -122,6 +125,9 @@
 				Base,
 			);
 			mainGroup = D87DCA0D26276189000668A3;
+			packageReferences = (
+				D8DE3BF32954E1BA0055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */,
+			);
 			productRefGroup = D87DCA1726276189000668A3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -298,7 +304,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dennisbirch.SimpleAnalyticsDemo-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -320,7 +326,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dennisbirch.SimpleAnalyticsDemo-AppKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -350,9 +356,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D8DE3BF32954E1BA0055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dennisbirch/simple-analytics.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		D87DCA5C26276933000668A3 /* SimpleAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = SimpleAnalytics;
+		};
+		D8DE3BF42954E1BA0055BDB6 /* SimpleAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DE3BF32954E1BA0055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */;
 			productName = SimpleAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */

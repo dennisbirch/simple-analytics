@@ -8,7 +8,7 @@
 @implementation AnalyticsManager
 
 + (void)initializeEndpoint {
-    [AppAnalytics setEndpoint:@"URL FOR YOUR WEB SERVICE"];
+    [AppAnalytics setEndpoint:@"URL FOR YOUR WEB SERVICE" submissionCompletionCallback: nil];
 }
 
 + (void)addCounter:(NSString *) name {

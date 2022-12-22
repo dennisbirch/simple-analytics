@@ -14,6 +14,7 @@
 		D836625D26371155002175FA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D836625C26371155002175FA /* main.m */; };
 		D8366281263718A7002175FA /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D8366280263718A7002175FA /* SimpleAnalytics */; settings = {ATTRIBUTES = (Required, ); }; };
 		D8D9A7C4263B2EC1004D092C /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D9A7C2263B2EC1004D092C /* AnalyticsManager.m */; };
+		D8DE3BFB2954E3380055BDB6 /* SimpleAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D8DE3BFA2954E3380055BDB6 /* SimpleAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8366281263718A7002175FA /* SimpleAnalytics in Frameworks */,
+				D8DE3BFB2954E3380055BDB6 /* SimpleAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +105,7 @@
 			name = "SimpleAnalyticsDemo-ObjC";
 			packageProductDependencies = (
 				D8366280263718A7002175FA /* SimpleAnalytics */,
+				D8DE3BFA2954E3380055BDB6 /* SimpleAnalytics */,
 			);
 			productName = AnalyticsTesting;
 			productReference = D836624D26371154002175FA /* SimpleAnalyticsDemo-ObjC.app */;
@@ -132,6 +135,7 @@
 			);
 			mainGroup = D836624426371153002175FA;
 			packageReferences = (
+				D8DE3BF92954E3380055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */,
 			);
 			productRefGroup = D836624E26371154002175FA /* Products */;
 			projectDirPath = "";
@@ -297,17 +301,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "AnalyticsDemo-ObjC/AnalyticsDemo-ObjC.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = B75Q6TLYBM;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "SimpleAnalyticsDemo-ObjC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dennisbirch.SimpleAnalyticsDemo-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -321,17 +325,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "AnalyticsDemo-ObjC/AnalyticsDemo-ObjC.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = B75Q6TLYBM;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "SimpleAnalyticsDemo-ObjC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dennisbirch.SimpleAnalyticsDemo-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -361,9 +365,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D8DE3BF92954E3380055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dennisbirch/simple-analytics.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		D8366280263718A7002175FA /* SimpleAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = SimpleAnalytics;
+		};
+		D8DE3BFA2954E3380055BDB6 /* SimpleAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DE3BF92954E3380055BDB6 /* XCRemoteSwiftPackageReference "simple-analytics" */;
 			productName = SimpleAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */

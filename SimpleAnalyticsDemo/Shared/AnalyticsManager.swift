@@ -17,7 +17,7 @@ import UIKit
  */
 
 struct DemoAnalytics {
-    static func initializeEndpoint(submissionCompletion: (() -> Void)?) {
+    static func initializeEndpoint(submissionCompletion: (() -> Void)? = nil) {
         #if os(macOS)
         AppAnalytics.setEndpoint("URL FOR YOUR WEB SERVICE", submissionCompletionCallback: submissionCompletion)
         #elseif os(iOS)
