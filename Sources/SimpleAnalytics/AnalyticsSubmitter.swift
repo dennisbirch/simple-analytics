@@ -51,7 +51,8 @@ struct AnalyticsSubmitter: AnalyticsSubmitting {
         do {
             let data = try encoder.encode(requestItem)
             urlRequest.httpBody = data
-            
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
             let config = URLSessionConfiguration.default
             config.timeoutIntervalForRequest = 30
             config.timeoutIntervalForResource = 120
