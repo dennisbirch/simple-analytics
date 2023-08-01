@@ -45,7 +45,7 @@ import os.log
     private var systemVersion: String
     private var shouldSubmitAtAppDismiss = true
     
-    private static var shared = AppAnalytics()
+    private static var shared = AppAnalytics(deviceID: "")
     private static let persistenceFileName = "PersistedAnalytics"
     
     #if os(iOS)
@@ -79,12 +79,14 @@ import os.log
     
     /// Static method to set the *endPoint* and *submissionCompletionCallback* properties
     /// - Parameter urlString: String for the endpoint's URL
+    /// - Parameter deviceID: String identifying the device
     /// - Parameter submissionCompletionCallback: An optional completion with no argument and no return value, to signal to your macOS app that submission is complete
     ///
     /// This method is required for configuring the framework on macOS.
     @available (iOS, deprecated: 13.0, message: "Please use the setEndpoint(_:, sharedApp:) method")
-    @objc public static func setEndpoint(_ urlString: String, submissionCompletionCallback: (() -> Void)? = nil) {
+    @objc public static func setEndpoint(_ urlString: String, deviceID: String, submissionCompletionCallback: (() -> Void)? = nil) {
         shared.endpoint = urlString
+        shared.deviceID = deviceID
         #if os(macOS)
         shared.submissionCompletionCallback = submissionCompletionCallback
         #endif
@@ -93,11 +95,13 @@ import os.log
     #if os(iOS)
     /// Static method to set the *endPoint* and *sharedApp* properties
     /// - Parameter urlString: String for the endpoint's URL
+    /// - Parameter deviceID: String identifying the device
     /// - Parameter sharedApp: The shared UIApplication that should be used for managing background tasks. Pass in UIApplication.shared to this argument.
     ///
     /// This method should be used for configuring the framework in iOS.
-    @objc public static func setEndpoint(_ urlString: String, sharedApp: UIApplication?) {
+    @objc public static func setEndpoint(_ urlString: String, deviceID: String, sharedApp: UIApplication?) {
         shared.endpoint = urlString
+        shared.deviceID = deviceID
         shared.sharedUIApp = sharedApp
     }
     #endif
@@ -197,7 +201,7 @@ import os.log
     // MARK: - Internal & Private Methods
     // MARK: - 
     
-    init(endpoint: String = "", appName: String = "", applicationVersion: String = "") {
+    init(deviceID: String, endpoint: String = "", appName: String = "", applicationVersion: String = "") {
         self.endpoint = endpoint
 
         var name = appName
@@ -228,15 +232,7 @@ import os.log
         
         self.appVersion = version
 
-        let analyticsID = "App Analytics Identifier"
-        if let identifier = UserDefaults.standard.string(forKey: analyticsID) {
-            self.deviceID = identifier
-        } else {
-            let identifier = UUID().uuidString
-            UserDefaults.standard.set(identifier, forKey: analyticsID)
-            self.deviceID = identifier
-        }
-        
+        self.deviceID = deviceID
         maxItemCount = baseItemCount
         
 #if os(iOS)

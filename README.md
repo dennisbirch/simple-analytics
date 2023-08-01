@@ -10,6 +10,16 @@ SimpleAnalytics allows you to capture user actions in your apps and submit them 
 
 See the SimpleAnalyticsDemo project for a rudimentary example of using it in an Xcode project.
 
+## Important v3.0 note
+In July 2023, Apple announced that it would require developers to report use of "required reason" APIs, including UserDefaults, beginning in the fall of 2023. [Apple Developer page](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files/describing_use_of_required_reason_api
+)
+
+Since the original version of Simple Analytics made calls to UserDefaults to persist an identifying string that was unique to the device across app launches, you would need to inlude that usage in your app releases going forward. 
+
+In version 3.0 and later of Simple Analytics, the API for initializing an analytics reporting session has changed. Its _setEndpoint..._ method now requires passing in a device identifier string. All use of UserDefaults have been removed from the framework.
+
+If you are upgrading from an earlier version of Simple Analytics, you will need to update your call to the _setEndpoint_ method in your app's code. In addition you will need to devise your own method for persisting an identifier if that is something you want to include in your analytics reports. One such possibility that should meet Apple's new rules is used in the accompanying demo projects' _AnalyticsManager_ files.
+
 ## Installation
 SimpleAnalytics is distributed as a Swift package, which you can load into Xcode projects using the available tools built into Xcode 11.0 and higher.
 
@@ -70,19 +80,25 @@ In order to submit your app's analytics data from users' devices to a web servic
 
 New in version 2.0 and higher: On iOS, you also need to provide a reference to the shared application instance. SimpleAnalytics uses this to request and dispose of a background task when submitting data to your web service.
 
-To set the endpoint on __macOS__, call the `AppAnalytics.setEndpoint(_:submissionCompletionCallback:)` method.
+##### To set the endpoint on __macOS__: 
+call the `AppAnalytics.setEndpoint(_:, deviceID:, submissionCompletionCallback:)` method.
 
 __Parameters:__
 
 _urlString_: String for your web service URL.
 
+_deviceID_: String identifying the device if desired to track in your analytics reports. See the discussion of this parameter in the _"Important v3.0 note"_ section above.
+
 _submissionCompletionCallback_: An optional completion with no argument and no return value to signal to your macOS app that submission is complete. This can be useful to implement a strategy for terminating the app _after_ analytics submission has completed.
 
-To set the endpoint and shared app on __iOS__, call the `AppAnalytics.setEndpoint(_:, sharedApp:)` method.
+#####To set the endpoint and shared app on __iOS__: 
+call the `AppAnalytics.setEndpoint(_:, deviceID:, sharedApp:)` method.
 
 __Parameters:__
 
 _urlString_: String for your web service URL. 
+
+_deviceID_: String identifying the device if desired to track in your analytics reports. See the discussion of this parameter in the _"Important v3.0 note"_ section above.
 
 _sharedApp_: Pass the __UIApplication.shared__ property to this argument.
 

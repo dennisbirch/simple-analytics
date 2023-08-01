@@ -7,10 +7,10 @@
         private let moveSquare = "move square"
         private let jumpFive = "jump 5"
 
-        var manager = AppAnalytics(endpoint: "", appName: "")
+        var manager = AppAnalytics(deviceID: UUID().uuidString, endpoint: "", appName: "")
         
         override func setUp() {
-            manager = AppAnalytics(endpoint: endpoint, appName: appName)
+            manager = AppAnalytics(deviceID: UUID().uuidString, endpoint: endpoint, appName: appName)
         }
         
         func testNameAndEndpoint() {
